@@ -1,87 +1,50 @@
-import './App.css';
-import React from 'react';
+import React from "react";
+import Login from "./Login.js"
+import Designer_LandingPage from "./Designer_LandingPage.js"
 
-function App() {
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
+// REPLACE URL BELOW WITH YOURS!
+var base_url = "https://nv069k0pjd.execute-api.us-east-1.amazonaws.com/Prod/";
 
-  //     <h1><center>Welcome to Kickstarter!</center></h1>
-  //     <h1><center>Login or Register Here</center></h1>
-
-  //     <form>
-  //       <label>
-  //         Name:
-  //         <input name="LoginForm" method="post"/>
-  //       </label>
-  //       <center><p>Please enter your username and password below:</p></center>
-
-  //       <center>
-  //         <input type="text" placeholder="Username" />
-  //         <input type="text" placeholder="Password" />
-  //       </center>
-
-  //       <center><input type="button" value="Login" onclick="JavaScript:handleAddClick(this)"/></center>
-  //       <center><input type="button" value="Register" onclick="JavaScript:handleEqualClick(this)"/></center>
-  //     </form>
-  //     return (
-  //     <form onSubmit={this.handleSubmit}>
-  //       <label>
-  //         Name:
-  //         <input type="text" value={this.state.value} onChange={this.handleChange} />
-  //       </label>
-  //       <input type="submit" value="Submit" />
-  //     </form>
-  //   );
-
-  //     </header>
-  //   </div>
-  // );
-  
-
-
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-
-  function handleSubmit(event) {
-    alert('A name was submitted: ');
-    event.preventDefault();
-    console.log(email)
-    console.log(password)
-    //TODO: check DB for credentials
-  }
-
-
-  return (
-  <div>
-
-    <h1><center>Welcome to Kickstarter!</center></h1>
-    <h1><center>Login or Register Here</center></h1>
+var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
 
 
 
 
 
-    <center><form onSubmit={handleSubmit}>
-    <br/>
-    
-    <label>
-        Username:
-        <input type="text" onChange={(e) => setEmail(e.target.value)}/>
-      </label>
-      <br/>
-      <label>
-        Password:
-        <input type="password" onChange={(e) => setPassword(e.target.value)}/>
-      </label>
-      <br/>
-      <input type="submit" value="Submit" />
 
-    </form></center>
 
-    </div>
-  );
+
+
+function ChoosePage(PageNum){
+if(PageNum == 1){
+    return <Login/>
 }
+
+if(PageNum == 2){
+    return <Designer_LandingPage/>
+}
+
+}
+
+
+
+
+
+function App(){
+
+let PageNum = 1
+
+// if(Lambda returns Something){
+//     PageNum = 2
+// }
+//SendtoALambda()
+
+return(
+ChoosePage(PageNum)
+)
+
+
+}
+
 
 export default App;
