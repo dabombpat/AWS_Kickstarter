@@ -8,22 +8,15 @@ var base_url = "https://nv069k0pjd.execute-api.us-east-1.amazonaws.com/Prod/";
 var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
 
 
-
-
-
-
-
-
-
 function ChoosePage(PageNum){
 if(PageNum == 1){
     return <Login/>
 }
 
+
 if(PageNum == 2){
     return <Designer_LandingPage/>
 }
-
 }
 
 
@@ -42,7 +35,6 @@ let PageNum = 1
 return(
 ChoosePage(PageNum)
 )
-
 
 }
 

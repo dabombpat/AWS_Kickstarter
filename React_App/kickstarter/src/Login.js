@@ -17,18 +17,18 @@ function Login() {
 
 
   function handleSubmit(event) {
-    //alert('A name was submitted: ');
+    alert('A name was submitted: ');
     event.preventDefault();
     console.log(email)
     console.log(password)
     //TODO: check DB for credentials
-    SendtoALambda();
+    SendtoALambda(email, password);
   }
 
-  function SendtoALambda(e) {
+  function SendtoALambda(email, password) {
     var form = document.addForm;
-    var arg1 = "1";
-    var arg2 = "2";
+    var arg1 = email;
+    var arg2 = password;
   
     // my actual payload for arg1/arg2
     var data = {};
