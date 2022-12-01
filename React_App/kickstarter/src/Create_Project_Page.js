@@ -69,6 +69,7 @@ function SendtoALambda(project_name, project_story, designer_name, project_genre
   xhr.open("POST", create_url, true);
 
   // send the collected data as JSON
+  //
   //console.log(js);
   xhr.send(js);
 
