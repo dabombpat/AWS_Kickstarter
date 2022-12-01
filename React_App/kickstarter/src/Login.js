@@ -4,7 +4,7 @@ import App from './App';
 import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
 
 // REPLACE URL BELOW WITH YOURS!
-var base_url = "https://nv069k0pjd.execute-api.us-east-1.amazonaws.com/Prod/";
+var base_url = "https://isiw3ngn0f.execute-api.us-east-1.amazonaws.com/Prod/";
 
 var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
 
