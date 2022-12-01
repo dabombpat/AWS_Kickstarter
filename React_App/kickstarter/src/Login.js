@@ -8,11 +8,8 @@ var base_url = "https://nv069k0pjd.execute-api.us-east-1.amazonaws.com/Prod/";
 
 var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
 
-const Submitbutton = {
-  position: "absolute",
-  left: 500,
-  top: 250,
-}
+
+
 
 
 
@@ -20,27 +17,42 @@ function Login() {
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
   const navigate = useNavigate();
 
-  function handleSubmit(event) {
-    alert('A name was submitted: ');
-    event.preventDefault();
-    console.log(email)
-    console.log(password)
-    //TODO: check DB for credentials
-    SendtoALambda(email, password);
+  function handleSubmit(){
+    console.log("worthless function")
   }
 
-  function SendtoALambda(email, password) {
+  function Handle_Login(){
+    console.log("Attempting to Log In")
+    Handle_Submit("L");
+  }
+  function Handle_Register(){
+    console.log("Attempting to Register")
+    Handle_Submit("R");
+  }
+
+  function Handle_Submit(LorR) {
+    alert('Attempting to Login or Register');
+    //event.preventDefault();
+    console.log(email)
+    console.log(password)
+    console.log(LorR)
+    //TODO: check DB for credentials
+    SendtoALambda(email, password, LorR);
+  }
+
+  function SendtoALambda(email, password, LorR) {
     var form = document.addForm;
     var arg1 = email;
     var arg2 = password;
+    var arg3 = LorR;
   
     // my actual payload for arg1/arg2
     var data = {};
     data["arg1"] = arg1;
     data["arg2"] = arg2;
+    data["arg3"] = arg3;
     
     // to work with API gateway, I need to wrap inside a 'body'
     var body = {}
@@ -95,7 +107,7 @@ function Login() {
       console.log("Switch Page!")
       //document.addForm.result.value = result;
 
-      navigate('/landing');
+      navigate('/designer_landing');
     } else {
       console.log("Incorrect username or password")
     }
@@ -131,9 +143,12 @@ function Login() {
         <input type="password" onChange={(e) => setPassword(e.target.value)}/>
       </label>
       <br/>
-      <input type="submit" value="Submit" />
+      {/* <input type="submit" value="Submit" /> */}
       
     </form></center>
+
+    <center><button onClick={Handle_Login}>Log In</button></center>
+    <center><button onClick={Handle_Register}>Register</button></center>
 
     </div>
   );
