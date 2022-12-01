@@ -4,7 +4,7 @@ import App from './App';
 import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
 
 // REPLACE URL BELOW WITH YOURS!
-var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod";
+var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 
 var add_url = base_url + "login";      // POST: {arg1:5, arg2:7}
 
@@ -42,17 +42,17 @@ function Login() {
     SendtoALambda(email, password, LorR);
   }
 
-  function SendtoALambda(email, password, LorR) {
+  function SendtoALambda(email, password) {
     var form = document.addForm;
     var arg1 = email;
     var arg2 = password;
-    var arg3 = LorR;
+    //var arg3 = LorR;
   
     // my actual payload for arg1/arg2
     var data = {};
-    data["arg1"] = arg1;
-    data["arg2"] = arg2;
-    data["arg3"] = arg3;
+    data["username"] = arg1;
+    data["password"] = arg2;
+    //data["arg3"] = arg3;
     
     // to work with API gateway, I need to wrap inside a 'body'
     var body = {}

@@ -7,7 +7,7 @@ import Create_Project_Page from "./Create_Project_Page.js";
 import Admin_LandingPage from "./Admin_LandingPage.js";
 
 // REPLACE URL BELOW WITH YOURS!
-var base_url = "https://nv069k0pjd.execute-api.us-east-1.amazonaws.com/Prod/";
+var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod";
 var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
 
 
