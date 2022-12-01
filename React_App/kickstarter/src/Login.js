@@ -73,7 +73,6 @@ function Login() {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       console.log('received a status from lambda function')
       console.log("response text : ", xhr.responseText);
-      let status = 
       processAddResponse(xhr.responseText);
     } else {
       processAddResponse("N/A");
@@ -103,7 +102,7 @@ function Login() {
 
     
     // Update computation result
-    if (status == 200) {
+    if (status == 205) {
       console.log("Switch Page!")
       //document.addForm.result.value = result;
 
