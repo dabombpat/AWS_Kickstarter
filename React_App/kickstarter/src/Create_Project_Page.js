@@ -72,6 +72,8 @@ function SendtoALambda(project_name, project_story, designer_name, project_genre
   //console.log(js);
   xhr.send(js);
 
+
+  
   console.log('Sent Project Informaiton Lambda')
   // This will process results and update HTML as appropriate. 
   
