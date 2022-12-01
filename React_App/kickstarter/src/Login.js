@@ -51,7 +51,7 @@ function Login() {
     xhr.open("POST", add_url, true);
   
     // send the collected data as JSON
-    console.log(js);
+    //console.log(js);
     xhr.send(js);
 
     console.log('Sent Email and Password to Lambda')
@@ -59,12 +59,12 @@ function Login() {
     
     xhr.onloadend = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
-      console.log('received 200 status from lambda function')
-      processAddResponse(xhr.responseText, xhr.status);
-      console.log("redirecting")
-      navigate('/landing');
+      console.log('received a status from lambda function')
+      console.log("response text : ", xhr.responseText);
+      let status = 
+      processAddResponse(xhr.responseText);
     } else {
-      processAddResponse("N/A", xhr.status);
+      processAddResponse("N/A");
     }
 
   };
@@ -78,26 +78,26 @@ function Login() {
    * Respond to server JSON object.
    *
    */
-  function processAddResponse(result, status) {
+  function processAddResponse(result) {
     // Can grab any DIV or SPAN HTML element and can then manipulate its
     // contents dynamically via javascript
-    console.log(result)
-    console.log(status)
-    
-    var js = JSON.parse(result);
-    var result  = js["result"];
+    //console.log("PAR Result :", result)
 
-    console.log(result)
+    var js = JSON.parse(result);
+    //console.log("JSONParse Result :", js)
+    var status  = js["statusCode"];
+
+    console.log("found status : ", status)
 
     
     // Update computation result
     if (status == 200) {
       console.log("Switch Page!")
       //document.addForm.result.value = result;
-      App.PageNum = 2
+
+      navigate('/landing');
     } else {
-      var msg = js["error"];   // only exists if error...
-      document.addForm.result.value = "error:" + msg
+      console.log("Incorrect username or password")
     }
   }
 
@@ -137,7 +137,6 @@ function Login() {
 
     </div>
   );
-  // <button style={Submitbutton} onClick={() => {SubmitButtonClicked()}}>&#9650;</button>
 
 }
 
