@@ -2,13 +2,13 @@ import './App.css';
 import React from 'react';
 import App from './App';
 import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
+import auser from './Login';
+import {Model} from './Model.js';
 
 // REPLACE URL BELOW WITH YOURS!
 var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 
 var add_url = base_url + "login";      // POST: {arg1:5, arg2:7}
-
-
 
 
 
@@ -106,6 +106,7 @@ function Login() {
       console.log("Switch Page!")
       //document.addForm.result.value = result;
 
+      let anewuser = new Model(email, "designer")
       navigate('/designer_landing');
     } else {
       console.log("Incorrect username or password")

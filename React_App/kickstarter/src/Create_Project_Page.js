@@ -1,5 +1,6 @@
 import React from "react";
 import {useState} from 'react';
+import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
 
 // REPLACE URL BELOW WITH YOURS!
 var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
@@ -88,6 +89,14 @@ function SendtoALambda(project_name, project_story, designer_name, project_genre
 };
 }
 
+const navigate = useNavigate();
+const handleBack  = () => {
+  console.log("Going back!");
+  navigate('/designer_landing');
+  
+}
+
+
 const handleSubmit  = () => {
   console.log(project_name,project_story,designer_name,project_genre,fundraising_goal,project_deadline);
   SendtoALambda(project_name,project_story,designer_name,project_genre,fundraising_goal,project_deadline);
@@ -125,6 +134,7 @@ const handleSubmit  = () => {
             </div>
             <div className="footer">
                 <button onClick={()=>handleSubmit()} type="submit" className="btn">Register</button>
+                <button onClick={()=>handleBack()} type="submit" className="btn">Back</button>
             </div>
         </div>
 

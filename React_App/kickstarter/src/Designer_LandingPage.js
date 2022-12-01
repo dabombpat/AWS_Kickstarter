@@ -1,17 +1,19 @@
 import React from "react";
-import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
-
-
-
-
+import {Link, redirect, Routes, Route, useNavigate, Navigation} from 'react-router-dom';
+import anewuser from "./Login";
 
 function Designer_LandingPage(){
   const navigate = useNavigate();
 
+
+  //console.log("AHHHHHH : " , anewuser.getEmail())
+
   function Create_Project(){
   
     console.log("Create Project!")
+    
     navigate('/create_project');
+    
   }
   
     return (
