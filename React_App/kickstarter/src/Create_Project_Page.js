@@ -2,9 +2,9 @@ import React from "react";
 import {useState} from 'react';
 
 // REPLACE URL BELOW WITH YOURS!
-var base_url = "https://nv069k0pjd.execute-api.us-east-1.amazonaws.com/Prod/";
+var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 
-var create_url = base_url + "createproject";      // POST: {arg1:5, arg2:7}
+var create_url = base_url + "projectcreator";      // POST: {arg1:5, arg2:7}
 
 
 
@@ -44,21 +44,21 @@ function Create_Project_Page(){
 
 function SendtoALambda(project_name, project_story, designer_name, project_genre, fundraising_goal, project_deadline) {
   var form = document.addForm;
-  var arg1 = project_name;
-  var arg2 = project_story;
-  var arg3 = designer_name;
+  var arg1 = designer_name;
+  var arg2 = project_name;
+  var arg3 = project_story;
   var arg4 = project_genre;
   var arg5 = fundraising_goal;
   var arg6 = project_deadline;
 
   // my actual payload for arg1/arg2
   var data = {};
-  data["arg1"] = arg1;
-  data["arg2"] = arg2;
-  data["arg3"] = arg3;
-  data["arg4"] = arg4;
-  data["arg5"] = arg5;
-  data["arg6"] = arg6;
+  data["username"] = arg1;
+  data["name"] = arg2;
+  data["story"] = arg3;
+  data["type"] = arg4;
+  data["goal"] = arg5;
+  data["deadline"] = arg6;
   
   // to work with API gateway, I need to wrap inside a 'body'
   var body = {}

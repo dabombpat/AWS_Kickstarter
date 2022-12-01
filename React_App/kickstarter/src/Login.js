@@ -102,7 +102,7 @@ function Login() {
 
     
     // Update computation result
-    if (status == 205) {
+    if (status == 200) {
       console.log("Switch Page!")
       //document.addForm.result.value = result;
 
