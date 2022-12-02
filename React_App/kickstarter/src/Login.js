@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
 import App from './App';
+import currentuser from './App';
 import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
-import auser from './Login';
 import {Model} from './Model.js';
 
 // REPLACE URL BELOW WITH YOURS!
@@ -106,7 +106,9 @@ function Login() {
       console.log("Switch Page!")
       //document.addForm.result.value = result;
 
-      let anewuser = new Model(email, "designer")
+      currentuser.user = email;
+      currentuser.type = "designer";
+      console.log("email!" ,email)
       navigate('/designer_landing');
     } else {
       console.log("Incorrect username or password")

@@ -1,3 +1,5 @@
+// JACKS WORKING BRANCH
+
 import React from "react";
 import Login from "./Login.js"
 import Designer_LandingPage from "./Designer_LandingPage.js"
@@ -5,6 +7,7 @@ import { Component } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Create_Project_Page from "./Create_Project_Page.js";
 import Admin_LandingPage from "./Admin_LandingPage.js";
+import Model from "./Model.js";
 
 
 
@@ -19,12 +22,13 @@ if(PageNum == 1){
     return <Login/>
 }
 
-
 if(PageNum == 2){
     return <Designer_LandingPage/>
 }
 }
 
+var currentuser = new Model("","")
+export {currentuser}
 
 
 
