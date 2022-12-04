@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Create_Project_Page from "./Create_Project_Page.js";
 import Admin_LandingPage from "./Admin_LandingPage.js";
 import Model from "./Model.js";
-
+import Project_LandingPage from "./Project_LandingPage.js";
 
 
 // REPLACE URL BELOW WITH YOURS!
@@ -21,6 +21,7 @@ function ChoosePage(PageNum){
 if(PageNum == 1){
     return <Login/>
 }
+
 
 if(PageNum == 2){
     return <Designer_LandingPage/>
@@ -42,6 +43,7 @@ return(
 <main>
     <Routes>
         <Route path="/"  element={<Login/>} exact/>
+        <Route path="/project_page" element={<Project_LandingPage/>} />
         <Route path="/designer_landing" element={<Designer_LandingPage/>} />
         <Route path="/create_project" element={<Create_Project_Page/>} />
         <Route path="/admin_landing" element={<Admin_LandingPage/>} />

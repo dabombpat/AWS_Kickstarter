@@ -8,19 +8,18 @@ import currentuser from "./App";
 // REPLACE URL BELOW WITH YOURS!
 var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 
-var create_url = base_url + "projectcreator";      // POST: {arg1:5, arg2:7}
+var project_creator_url = base_url + "projectcreator";      // POST: {arg1:5, arg2:7}
 
 
 
 
 function Create_Project_Page(){
-
   let username = currentuser.user;
-  console.log("USER Username is : ", username)
+  //console.log("USER Username is : ", username)
 
   const [project_name, setproject_name] = useState(null);
-  const [project_story, setproject_story] = useState(null);
   const [designer_name, setdesigner_name] = useState(null);
+  const [project_story, setproject_story] = useState(null);
   const [project_genre, setproject_genre] = useState(null);
   const [fundraising_goal,setfundraising_goal] = useState(null);
   const [project_deadline,setproject_deadline] = useState(null);
@@ -31,11 +30,11 @@ function Create_Project_Page(){
     if(id === "project_name"){
       setproject_name(value);
     }
-    if(id === "project_story"){
-      setproject_story(value);
-    }
     if(id === "designer_name"){
       setdesigner_name(value);
+    }
+    if(id === "project_story"){
+      setproject_story(value);
     }
     if(id === "project_genre"){
       setproject_genre(value);
@@ -50,22 +49,16 @@ function Create_Project_Page(){
 }
 
 function SendtoALambda(project_name, project_story, designer_name, project_genre, fundraising_goal, project_deadline) {
-  var form = document.addForm;
-  var arg1 = designer_name;
-  var arg2 = project_name;
-  var arg3 = project_story;
-  var arg4 = project_genre;
-  var arg5 = fundraising_goal;
-  var arg6 = project_deadline;
-
-  // my actual payload for arg1/arg2
+  // Creating Payload to send to Lambda
   var data = {};
-  data["username"] = arg1;
-  data["name"] = arg2;
-  data["story"] = arg3;
-  data["type"] = arg4;
-  data["goal"] = arg5;
-  data["deadline"] = arg6;
+  data["username"] = designer_name;
+  data["name"] = project_name;
+  data["story"] = project_story;
+  data["type"] = project_genre;
+  data["goal"] = fundraising_goal;
+  data["funds"] = 0;
+  data["deadline"] = project_deadline;
+  data["launched"] = false;
   
   // to work with API gateway, I need to wrap inside a 'body'
   var body = {}
@@ -73,7 +66,7 @@ function SendtoALambda(project_name, project_story, designer_name, project_genre
   var js = JSON.stringify(body);
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", create_url, true);
+  xhr.open("POST", project_creator_url, true);
 
   // send the collected data as JSON
   //
@@ -97,15 +90,15 @@ function SendtoALambda(project_name, project_story, designer_name, project_genre
 
 const navigate = useNavigate();
 const handleBack  = () => {
-  console.log("Going back!");
+  console.log("Navigating back to the Designer Landing Page (from create project page) ---------------------")
   navigate('/designer_landing');
   
 }
 
 
 const handleSubmit  = () => {
-  console.log(project_name,project_story,designer_name,project_genre,fundraising_goal,project_deadline);
-  SendtoALambda(project_name,project_story,designer_name,project_genre,fundraising_goal,project_deadline);
+  console.log(project_name,project_story,username,project_genre,fundraising_goal,project_deadline);
+  SendtoALambda(project_name,project_story,username,project_genre,fundraising_goal,project_deadline);
 }
 
 
@@ -118,13 +111,13 @@ const handleSubmit  = () => {
                     <label className="form__label" htmlFor="project_name">Project Name : </label>
                     <input className="form_label" type="text" value={project_name} onChange = {(e) => handleInputChange(e)} id="project_name" placeholder="The Greatest Game Ever"/>
                 </div>
+                <div className="designer_name">
+                    <label className="form__label" htmlFor="designer_name">Designer Name : </label>
+                    <input className="form_label" type="text" value={designer_name} onChange = {(e) => handleInputChange(e)} id="designer_name" placeholder="Pat Flan"/>
+                </div>
                 <div className="project_story">
                     <label className="form__label" htmlFor="project_story"> Project Story : </label>
                     <input  type="form_label" name="" id="project_story" value={project_story}  className="form__input" onChange = {(e) => handleInputChange(e)} placeholder="Once upon a time.."/>
-                </div>
-                <div className="designer_name">
-                    <label className="form__label" htmlFor="designer_name">Designer (Your) Name :</label>
-                    <input  type="form_label" id="designer_name" className="form__input" value={designer_name} onChange = {(e) => handleInputChange(e)} placeholder="Pat Flanigan"/>
                 </div>
                 <div className="project_genre">
                     <label className="form__label" htmlFor="project_genre">Project Genre :</label>
