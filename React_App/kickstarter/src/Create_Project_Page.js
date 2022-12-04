@@ -80,6 +80,7 @@ function SendtoALambda(project_name, project_story, designer_name, project_genre
   if (xhr.readyState == XMLHttpRequest.DONE) {
     console.log('received a status from lambda function')
     //console.log("response text : ", xhr.responseText);
+    if(xhr.status == 200){alert('Sucessfully Registered Project!');}
     //processAddResponse(xhr.responseText);
   } else {
     //processAddResponse("N/A");
@@ -92,7 +93,6 @@ const navigate = useNavigate();
 const handleBack  = () => {
   console.log("Navigating back to the Designer Landing Page (from create project page) ---------------------")
   navigate('/designer_landing');
-  
 }
 
 

@@ -9,34 +9,18 @@ import Create_Project_Page from "./Create_Project_Page.js";
 import Admin_LandingPage from "./Admin_LandingPage.js";
 import Model from "./Model.js";
 import Project_LandingPage from "./Project_LandingPage.js";
+import Pledge_Creator from "./Pledge_Creator";
 
 
-// REPLACE URL BELOW WITH YOURS!
-var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod";
-var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
-
-
-
-function ChoosePage(PageNum){
-if(PageNum == 1){
-    return <Login/>
-}
-
-
-if(PageNum == 2){
-    return <Designer_LandingPage/>
-}
-}
 
 var currentuser = new Model("","")
 export {currentuser}
 
-
+var currentproject = new Model("","")
+export {currentproject}
 
 
 function App(){
-
-let PageNum = 1
 
 
 return(
@@ -47,9 +31,9 @@ return(
         <Route path="/designer_landing" element={<Designer_LandingPage/>} />
         <Route path="/create_project" element={<Create_Project_Page/>} />
         <Route path="/admin_landing" element={<Admin_LandingPage/>} />
+        <Route path="/pledge_creator" element={<Pledge_Creator/>} />
     </Routes>
 </main>
-/* <Route path="/shop" component={Shop} /> */
 )
 }
 export default App;
