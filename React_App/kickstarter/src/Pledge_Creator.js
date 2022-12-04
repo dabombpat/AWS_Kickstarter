@@ -3,14 +3,11 @@ import {useState} from 'react';
 import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
 import { Model } from "./Model";
 import currentuser from "./App";
-
+import currentproject from "./App";
 
 // REPLACE URL BELOW WITH YOURS!
 var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
-
-var project_creator_url = base_url + "pledgecreator";      // ** MAKE SURE THIS IS RIGHT
-
-
+var pledge_creator_url = base_url + "pledgecreator";
 
 
 function Pledge_Creator(){
@@ -41,6 +38,54 @@ function Pledge_Creator(){
   
 }
 
+function SendtoPledgeCreator(description, reward, amount, max_supporters) {
+  // Creating Payload to send to Lambda
+  var data = {};
+  data["projectname"] = currentproject.projectname; //  -------------------------------------------THIS NEEDS TO BE FIXED
+  data["reward"] = reward;
+  data["amount"] = amount;
+  data["maxsupporters"] = max_supporters;
+  console.log(data)
+  
+  // to work with API gateway, I need to wrap inside a 'body'
+  var body = {}
+  body["body"] = JSON.stringify(data);
+  var js = JSON.stringify(body);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", pledge_creator_url, true);
+
+  // send the collected data as JSON
+  //
+  console.log(js);
+  xhr.send(js);
+
+  console.log('Sent Project Informaiton Lambda')
+  // This will process results and update HTML as appropriate. 
+  
+  xhr.onloadend = function () {
+  if (xhr.readyState == XMLHttpRequest.DONE) {
+    console.log('received a status from lambda function')
+    //console.log("response text : ", xhr.responseText);
+    if(xhr.status == 200){alert('Sucessfully Registered Pledge!');}
+    //processAddResponse(xhr.responseText);
+  } else {
+    //processAddResponse("N/A");
+  }
+
+};
+}
+
+
+
+
+
+
+const handleSubmit  = () => {
+  alert("Attempting to create a pledge!");
+  SendtoPledgeCreator(description,reward,amount,max_supporters);
+}
+
 const handleBack  = () => {
   console.log("Navigating back to the Designer Landing Page (from create pledge page) ---------------------")
   navigate('/project_page');
@@ -54,7 +99,7 @@ const handleBack  = () => {
             <div className="form-body">
             <div className="description">
                     <label className="form__label" htmlFor="description">Pledge Description : </label>
-                    <input className="form_label" type="text" value={amount} onChange = {(e) => handleInputChange(e)} id="description" placeholder="A fantastic opportunity!"/>
+                    <input className="form_label" type="text" value={description} onChange = {(e) => handleInputChange(e)} id="description" placeholder="A fantastic opportunity!"/>
                 </div>
                 <div className="amount">
                     <label className="form__label" htmlFor="amount">Pledge Amount : </label>
@@ -71,6 +116,7 @@ const handleBack  = () => {
               </div>
             </div>
             <button onClick={()=>handleBack()} type="submit" className="btn">Back</button>
+            <button onClick={()=>handleSubmit()} type="submit" className="btn">Create Pledge</button>
       </div>
     );
   }

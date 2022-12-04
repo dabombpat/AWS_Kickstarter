@@ -7,15 +7,15 @@ import currentproject from './App';
 var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 var project_info_url = base_url + "projectviewer";      // POST: {arg1:5, arg2:7}
 let hasloadedprojects = false;
+let initialprojectinfo = [];
 
 function Project_LandingPage(){
   const navigate = useNavigate();
-  let initialprojectinfo = [];
-  RequestInfoFromLambda(currentuser.user, currentproject.name)
+  RequestInfoFromLambda(currentuser.user, currentproject.projectname)
   const [project_info, setList] = useState(initialprojectinfo);
 
   function RequestInfoFromLambda(designer_name, project_name) {
-    if(hasloadedprojects){
+    if(hasloadedprojects == false){
     
     // Creating Payload to send to Lambda
     var data = {};
@@ -44,13 +44,12 @@ function Project_LandingPage(){
   
         var parsed_response = JSON.parse(xhr.responseText);
         //console.log("JSONParse Result :", responseunit)
-        var response_info  = parsed_response["body"];
+        var response_info  = parsed_response["result"];
         //console.log("result : ", response_info)
         hasloadedprojects = true;
         if(response_info != undefined){
-          //console.log("list: ", listofprojects)
-          setList(project_info => [ response_info["username"], response_info["type"], response_info["story"], response_info["name"], response_info["launched"], response_info["goal"], response_info["funds"], response_info["deadline"],])
-
+          setList(project_info => [ response_info[0]["username"], response_info[0]["type"], response_info[0]["story"], response_info[0]["name"], response_info[0]["launched"], response_info[0]["goal"], response_info[0]["funds"], response_info[0]["deadline"],])
+          displayprojectinfo()
         console.log(project_info)
       }
   
@@ -60,6 +59,18 @@ function Project_LandingPage(){
 
   };
   }
+  }
+
+  function launchchecker(YorN){
+    if(YorN == 0){
+      return("No")
+    }
+    if(YorN == 1){
+      return("Yes")
+    }
+    else{
+      return("error")
+    }
   }
 
 
@@ -77,18 +88,18 @@ function Project_LandingPage(){
     return(
       <center>
       <br/>
-      {/* Developer Name: {listofprojects[0]}<br/>
-      Project Name: {listofprojects[3]}<br/>
-      Project Type: {listofprojects[1]}<br/>
-      Project Story: {listofprojects[2]}<br/>
-      Project Fundraising Goal: {listofprojects[5]}<br/>
-      Is the Project Launched? : {launchchecker(listofprojects[4])}<br/>
-      Funds Raised by the Project: {listofprojects[6]}<br/>
-      Project deadline: {listofprojects[7]}<br/><br/> */}
-      {/* <button onClick={() => {setList(initialprojectlist); resethasloadedprojects()}}>Reset List</button> */}
-      {/* <center><button onClick={()=>handleToProject(1, listofprojects[3])} type="submit" className="btn">Go to Project : {listofprojects[3]}</button></center> */}
+      Developer Name: {project_info[0]}<br/>
+      Project Name: {project_info[3]}<br/>
+      Project Type: {project_info[1]}<br/>
+      Project Story: {project_info[2]}<br/>
+      Project Fundraising Goal: {project_info[5]}<br/>
+      Is the Project Launched? : {launchchecker(project_info[4])}<br/>
+      Funds Raised by the Project: {project_info[6]}<br/>
+      Project deadline: {project_info[7]}<br/><br/>
       </center>
     )}}
+
+
 
     function handleDeleteProject(){
       console.log("do you really want to delete this project?")
@@ -99,16 +110,26 @@ function Project_LandingPage(){
       navigate('/pledge_creator');
     }
 
+    const handleBack  = () => {
+      console.log("Navigating back to the Designer Landing Page (from project landing) ---------------------")
+      navigate('/designer_landing');
+    }
 
-
+    function resethasloadedprojects(){
+      hasloadedprojects = false;
+    }
 
     return (
         <div>
 
           <h1><center>Welcome to the Landing Page of your project!</center></h1>
           <h1><center>This is your project : "{currentproject.projectname}"</center></h1>
-          <center><button onClick={()=>handlecreateapledge()} type="submit" className="btn">Create a new pledge</button></center>
-          <center><button onClick={()=>handleDeleteProject()} type="submit" className="btn">DELETE THIS PROJECT</button></center>
+
+          {displayprojectinfo()}
+
+          <center><button onClick={()=>{handlecreateapledge(); resethasloadedprojects()}} type="submit" className="btn">Create a new pledge</button></center>
+          <center><button onClick={()=>{handleDeleteProject(); resethasloadedprojects()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
+          <center><button onClick={()=>{handleBack(); resethasloadedprojects()}} type="submit" className="btn">Back to Homepage</button></center>
           </div>
 
         );

@@ -90,11 +90,11 @@ function SendtoALambda(project_name, project_story, designer_name, project_genre
 }
 
 const navigate = useNavigate();
+
 const handleBack  = () => {
   console.log("Navigating back to the Designer Landing Page (from create project page) ---------------------")
   navigate('/designer_landing');
 }
-
 
 const handleSubmit  = () => {
   console.log(project_name,project_story,username,project_genre,fundraising_goal,project_deadline);

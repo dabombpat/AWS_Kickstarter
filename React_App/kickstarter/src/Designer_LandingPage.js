@@ -84,7 +84,7 @@ function Designer_LandingPage(){
     currentproject.projectnum = project_number;
     currentproject.projectname = project_name;
 
-    console.log("Navigating to Project Page", project_number, "(from DLP page) ---------------------")
+    console.log("Navigating to Project Page", project_name, "(from DLP page) ---------------------")
     navigate('/project_page');
   }
 
@@ -119,14 +119,14 @@ function Designer_LandingPage(){
 
       <center>
       <br/>
-      Developer Name: {listofprojects[0]}<br/>
       Project Name: {listofprojects[3]}<br/>
-      Project Type: {listofprojects[1]}<br/>
+      Developer Name: {listofprojects[0]}<br/>
+      {/* Project Type: {listofprojects[1]}<br/> */}
       Project Story: {listofprojects[2]}<br/>
-      Project Fundraising Goal: {listofprojects[5]}<br/>
+      {/* Project Fundraising Goal: {listofprojects[5]}<br/> */}
       Is the Project Launched? : {launchchecker(listofprojects[4])}<br/>
-      Funds Raised by the Project: {listofprojects[6]}<br/>
-      Project deadline: {listofprojects[7]}<br/><br/>
+      {/* Funds Raised by the Project: {listofprojects[6]}<br/> */}
+      {/* Project deadline: {listofprojects[7]}<br/><br/> */}
       {/* <button onClick={() => {setList(initialprojectlist); resethasloadedprojects()}}>Reset List</button> */}
       <center><button onClick={()=>handleToProject(1, listofprojects[3])} type="submit" className="btn">Go to Project : {listofprojects[3]}</button></center>
       </center>
@@ -171,7 +171,7 @@ function Designer_LandingPage(){
       <div>
 
           
-          <h1><center>Welcome to the Designer Landing Page!</center></h1>
+          <h1><center>Welcome to the Designer Home Page!</center></h1>
           <h1><center>You've Logged in!</center></h1>
           <br/>
           <center>If you have a project, it will show up here:</center>
