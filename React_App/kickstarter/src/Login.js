@@ -148,7 +148,7 @@ function Login() {
 
     <center><br/><button onClick={Handle_Login}>Log In</button></center>
     <center><br/><button onClick={Handle_Register_Designer}>Register Designer</button></center>
-    {/* <center><button onClick={Handle_Register_Supporter}>Register Supporter</button></center> */}
+    <center><button onClick={Handle_Register_Supporter}>Register Supporter</button></center>
 
     </div>
   );

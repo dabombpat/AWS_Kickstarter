@@ -124,25 +124,6 @@ function Admin_LandingPage(){
       Project deadline: {listofprojects[23]}<br/><br/>
       </p>
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </center>
     )}
 
