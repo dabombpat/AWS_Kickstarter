@@ -76,11 +76,6 @@ function SendtoPledgeCreator(description, reward, amount, max_supporters) {
 };
 }
 
-
-
-
-
-
 const handleSubmit  = () => {
   alert("Attempting to create a pledge!");
   SendtoPledgeCreator(description,reward,amount,max_supporters);

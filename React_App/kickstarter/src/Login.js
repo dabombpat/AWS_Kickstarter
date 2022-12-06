@@ -84,7 +84,7 @@ function Login() {
       currentuser.user = email;
       console.log(role)
       console.log(email)
-      currentuser.type = "Designer";
+      currentuser.type = "Supporter";
       if(LorR == "L"){
         processResponse(xhr.responseText);
       }

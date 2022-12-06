@@ -105,7 +105,6 @@ function Designer_LandingPage(){
 
 
    function displayprojects(){
-    console.log("HERE")
     return(listofprojects.map((item,index)=>{
         console.log(index)
          return( 
