@@ -177,7 +177,7 @@ function handleClaimPledge(supporter_username, project_name, pledge_reward, pled
       //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
       alert("Claimed Pledge!")
       let hasloadedpledges = false;
-      //navigate('/Designer_LandingPage');
+      navigate('/Supporter_LandingPage');
       if(response_info != undefined){
     }
     

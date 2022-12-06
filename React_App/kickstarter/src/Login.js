@@ -83,7 +83,7 @@ function Login() {
       currentuser.user = email;
       console.log(role)
       console.log(email)
-      currentuser.type = "Designer";
+      //currentuser.type = "Designer";
       if(LorR == "L"){
         processResponse(xhr.responseText);
       }
@@ -98,6 +98,9 @@ function Login() {
   function processResponse(result) {
     var js = JSON.parse(result); // Parsing response from Lambda
     var status  = js["statusCode"];
+    var DesignerorSupporter  = js["body"];
+    //console.log(body)
+    currentuser.type = DesignerorSupporter;
 
     if (status == 200) {
       console.log("Correct Username and Password!")

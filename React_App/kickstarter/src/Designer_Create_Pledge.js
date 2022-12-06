@@ -18,14 +18,10 @@ function Designer_Create_Pledge(){
   const [reward, setReward] = useState(null);
   const [amount, setAmount] = useState(null);
   const [max_supporters, setSupporters] = useState(null);
-  const [description, setDescription] = useState(null);
 
 
   const handleInputChange = (e) => {
     const {id , value} = e.target;
-    if(id === "description"){
-      setDescription(value);
-    }
     if(id === "reward"){
       setReward(value);
     }
@@ -38,7 +34,7 @@ function Designer_Create_Pledge(){
   
 }
 
-function SendtoPledgeCreator(description, reward, amount, max_supporters) {
+function SendtoPledgeCreator(reward, amount, max_supporters) {
   // Creating Payload to send to Lambda
   var data = {};
   data["projectname"] = currentproject.projectname; //  -------------------------------------------THIS NEEDS TO BE FIXED
@@ -78,7 +74,7 @@ function SendtoPledgeCreator(description, reward, amount, max_supporters) {
 
 const handleSubmit  = () => {
   alert("Attempting to create a pledge!");
-  SendtoPledgeCreator(description,reward,amount,max_supporters);
+  SendtoPledgeCreator(reward,amount,max_supporters);
 }
 
 const handleBack  = () => {
@@ -92,10 +88,6 @@ const handleBack  = () => {
 
           <div className="form">
             <div className="form-body">
-            <div className="description">
-                    <label className="form__label" htmlFor="description">Pledge Description : </label>
-                    <input className="form_label" type="text" value={description} onChange = {(e) => handleInputChange(e)} id="description" placeholder="A fantastic opportunity!"/>
-                </div>
                 <div className="amount">
                     <label className="form__label" htmlFor="amount">Pledge Amount : </label>
                     <input className="form_label" type="text" value={amount} onChange = {(e) => handleInputChange(e)} id="amount" placeholder="250"/>

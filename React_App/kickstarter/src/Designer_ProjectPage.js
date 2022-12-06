@@ -132,7 +132,7 @@ function Designer_ProjectPage(){
          return( 
          <center >
           <h4><center>This is the pledge : "{pledge_list[index][1]}"</center></h4>
-          <center><button onClick={()=>{handleDeletePledge(currentproject.projectname, pledge_list[index][1]); resethasloaded()}} type="submit" className="btn">Delete This Pledge</button></center>
+          <center><button onClick={()=>{handleDeletePledge(currentuser.user, currentproject.projectname, pledge_list[index][1], pledge_list[index][2]); resethasloaded()}} type="submit" className="btn">Delete This Pledge</button></center>
           Pledge Name: {pledge_list[index][0]}<br/>
           Project Name: {pledge_list[index][0]}<br/>
           Pledge Reward: {pledge_list[index][1]}<br/>
@@ -143,11 +143,14 @@ function Designer_ProjectPage(){
           )}))
 }
 
-function handleDeletePledge(project_name, reward){
+function handleDeletePledge(username, projectname, reward, amount){
   // Creating Payload to send to Lambda
   var data = {};
-  data["projectname"] = project_name;
+  data["username"] = username;
+  data["projectname"] = projectname;
   data["reward"] = reward;
+  data["amount"] = amount;
+
   
   // to work with API gateway, I need to wrap inside a 'body'
   var body = {}
@@ -280,7 +283,7 @@ function handleDeletePledge(project_name, reward){
   xhr.onloadend = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       console.log('Received Response from Lambda')
-
+      alert("Launched Project!")
       var parsed_response = JSON.parse(xhr.responseText);
       //console.log("JSONParse Result :", responseunit)
       var response_info  = parsed_response["result"];
