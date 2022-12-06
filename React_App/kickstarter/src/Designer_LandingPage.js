@@ -90,6 +90,7 @@ function Designer_LandingPage(){
   function resethasloadedprojects(){
     hasloadedprojects = false;
   }
+  
   function launchchecker(YorN){
     if(YorN == 0){
       return("No")

@@ -7,6 +7,9 @@ import currentproject from './App';
 var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 var project_info_url = base_url + "projectviewer";      // POST: {arg1:5, arg2:7}
 var pledge_info_url = base_url + "pledgeviewer";      // POST: {arg1:5, arg2:7}
+var delete_project_url = base_url + "deleteproject";      // POST: {arg1:5, arg2:7}
+var delete_pledge_url = base_url + "deletepledge";      // POST: {arg1:5, arg2:7}
+var launch_project_url = base_url + "launchproject";      // POST: {arg1:5, arg2:7}
 
 
 let hasloadedprojects = false;
@@ -128,16 +131,54 @@ function Designer_ProjectPage(){
         //console.log(index)
          return( 
          <center >
-          Project Name: {pledge_list[index][3]}<br/>
-          Developer Name: {pledge_list[index][0]}<br/>
-          Project Type: {pledge_list[index][1]}<br/>
-          Project Story: {pledge_list[index][2]}<br/>
-          Project Fundraising Goal: {pledge_list[index][5]}<br/>
-          Is the Project Launched? : {launchchecker(pledge_list[index][4])}<br/>
-          Funds Raised by the Project: {pledge_list[index][6]}<br/>
-          Project deadline: {pledge_list[index][7]}<br/>
-         </center>
+          <h4><center>This is the pledge : "{pledge_list[index][1]}"</center></h4>
+          <center><button onClick={()=>{handleDeletePledge(currentproject.projectname, pledge_list[index][1]); resethasloaded()}} type="submit" className="btn">Delete This Pledge</button></center>
+          Pledge Name: {pledge_list[index][0]}<br/>
+          Project Name: {pledge_list[index][0]}<br/>
+          Pledge Reward: {pledge_list[index][1]}<br/>
+          Required Pledge Amount: {pledge_list[index][2]}<br/>
+          Max Supporters : {pledge_list[index][3]}<br/>
+          Current Supporters : {pledge_list[index][4]}<br/>
+          <br/></center>
           )}))
+}
+
+function handleDeletePledge(project_name, reward){
+  // Creating Payload to send to Lambda
+  var data = {};
+  data["projectname"] = project_name;
+  data["reward"] = reward;
+  
+  // to work with API gateway, I need to wrap inside a 'body'
+  var body = {}
+  body["body"] = JSON.stringify(data);
+  var js = JSON.stringify(body);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", delete_pledge_url, true);
+  xhr.send(js);
+
+  console.log('Sent Request to Lambda to delete Pledge : ', reward)
+  // This will process results and update HTML as appropriate. 
+  
+  xhr.onloadend = function () {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+      console.log('Received Response from Lambda')
+
+      var parsed_response = JSON.parse(xhr.responseText);
+      //console.log("JSONParse Result :", responseunit)
+      var response_info  = parsed_response["result"];
+      //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
+      alert("Deleted Pledge!")
+      let hasloadedpledges = false;
+      navigate('/Designer_LandingPage');
+      if(response_info != undefined){
+    }
+    
+    } else {
+      console.log("did not receive projects back")
+    }
+};
 }
 
   function displayprojectinfo(){
@@ -161,42 +202,111 @@ function Designer_ProjectPage(){
           Project Fundraising Goal: {listofprojects[5]}<br/>
           Is the Project Launched? : {launchchecker(listofprojects[4])}<br/>
           Funds Raised by the Project: {listofprojects[6]}<br/>
-          Project deadline: {listofprojects[7]}<br/><br/><br/>
+          Project deadline: {listofprojects[7]}<br/><br/>
       </center>
     )}
   }
 
+  function handleDeleteProject(project_name, designer_name){
+    // Creating Payload to send to Lambda
+    var data = {};
+    data["username"] = designer_name;
+    data["name"] = project_name;
+    
+    // to work with API gateway, I need to wrap inside a 'body'
+    var body = {}
+    body["body"] = JSON.stringify(data);
+    var js = JSON.stringify(body);
+  
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", delete_project_url, true);
+    xhr.send(js);
+  
+    console.log('Sent Request to Lambda to delete Project : ', project_name)
+    // This will process results and update HTML as appropriate. 
+    
+    xhr.onloadend = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        console.log('Received Response from Lambda')
+  
+        var parsed_response = JSON.parse(xhr.responseText);
+        //console.log("JSONParse Result :", responseunit)
+        var response_info  = parsed_response["result"];
+        //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
+        alert("Deleted Project!")
+        navigate('/Designer_LandingPage');
+        if(response_info != undefined){
+      }
+      
+      } else {
+        console.log("did not receive projects back")
+      }
+  };
+  }
 
-    function handleDeleteProject(){
-      console.log("do you really want to delete this project?")
-    }
+  function handlecreateapledge(){
+    console.log("Navigating to Create a Pledge")
+    navigate('/Designer_Create_Pledge');
+  }
 
-    function handlecreateapledge(){
-      console.log("Navigating to Create a Pledge")
-      navigate('/pledge_creator');
-    }
+  const handleBack  = () => {
+    console.log("Navigating back to the Designer Landing Page (from project landing) ---------------------")
+    navigate('/Designer_LandingPage');
+  }
 
-    const handleBack  = () => {
-      console.log("Navigating back to the Designer Landing Page (from project landing) ---------------------")
-      navigate('/Designer_LandingPage');
-    }
+  function resethasloaded(){
+    hasloadedprojects = false;
+    hasloadedpledges = false;
+  }
 
-    function resethasloaded(){
-      hasloadedprojects = false;
-      hasloadedpledges = false;
+  function handleLaunchProject(project){
+  // Creating Payload to send to Lambda
+  var data = {};
+  data["username"] = currentuser.user;
+  data["name"] = project;
+  
+  // to work with API gateway, I need to wrap inside a 'body'
+  var body = {}
+  body["body"] = JSON.stringify(data);
+  var js = JSON.stringify(body);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", launch_project_url, true);
+  xhr.send(js);
+
+  console.log('Sent Request to Lambda to Launch Project')
+  // This will process results and update HTML as appropriate. 
+  
+  xhr.onloadend = function () {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+      console.log('Received Response from Lambda')
+
+      var parsed_response = JSON.parse(xhr.responseText);
+      //console.log("JSONParse Result :", responseunit)
+      var response_info  = parsed_response["result"];
+      //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
+      navigate('/Designer_ProjectPage');
+      if(response_info != undefined){
     }
+    
+    } else {
+      console.log("did not receive projects back")
+    }
+};
+}
 
     return (
         <div>
 
           <h1><center>Welcome to the Landing Page of your project!</center></h1>
           <h1><center>This is your project : "{currentproject.projectname}"</center></h1>
+          <center><button onClick={()=>{handleLaunchProject(currentproject.projectname); resethasloaded()}} type="submit" className="btn">Launch This Project!</button></center>
 
           {displayprojectinfo()}
-          {/* {displaypledges()} */}
+          {displaypledges()}
 
           <center><button onClick={()=>{handlecreateapledge(); resethasloaded()}} type="submit" className="btn">Create a new pledge</button></center>
-          <center><button onClick={()=>{handleDeleteProject(); resethasloaded()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
+          <center><button onClick={()=>{handleDeleteProject(currentproject.projectname, currentuser.user); resethasloaded()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
           <center><button onClick={()=>{handleBack(); resethasloaded()}} type="submit" className="btn">Back to Homepage</button></center>
           </div>
 
