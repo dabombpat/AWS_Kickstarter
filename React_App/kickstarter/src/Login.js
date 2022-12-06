@@ -30,7 +30,7 @@ function Login() {
       console.log("Navigating to Admin Landing Page! ---------------------")
       currentuser.user = email;
       currentuser.type = "Admin";
-      navigate('/admin_landing');
+      navigate('/Admin_LandingPage');
     }
     SendtoALambda(email, password, "L", "");
   }
@@ -52,12 +52,12 @@ function Login() {
   }
 
   function SendtoALambda(email, password, LorR, role) {
-
     // creating payload
     var data = {};
     data["username"] = email;
     data["password"] = password;
     data["role"] = role;
+
     
     // wrapping payload inside body
     var body = {}
@@ -80,7 +80,11 @@ function Login() {
     xhr.onloadend = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       console.log('Received Response from Lambda') // ------------- Received Response From Lambda
-      //console.log("response text : ", xhr.responseText);
+      console.log("response text : ", currentuser.type);
+      currentuser.user = email;
+      console.log(role)
+      console.log(email)
+      currentuser.type = "Designer";
       if(LorR == "L"){
         processResponse(xhr.responseText);
       }
@@ -93,20 +97,22 @@ function Login() {
 
 
   function processResponse(result) {
-
     var js = JSON.parse(result); // Parsing response from Lambda
-    //console.log("JSONParse Result :", js)
     var status  = js["statusCode"];
-    //console.log("found status : ", status)
 
     if (status == 200) {
       console.log("Correct Username and Password!")
-      console.log("Navigating to Designer Landing Page! ---------------------")
-      //document.addForm.result.value = result;
 
-      currentuser.user = email;
-      currentuser.type = "designer";
-      navigate('/designer_landing');
+      if(currentuser.type == "Designer"){
+      console.log("Navigating to Designer Landing Page! ---------------------")
+      navigate('/Designer_LandingPage');
+      }
+
+      if(currentuser.type == "Supporter"){
+        console.log("Navigating to Supporter Landing Page! ---------------------")
+        navigate('/Supporter_LandingPage');
+        }
+      
     } else {
       console.log("Incorrect username or password")
     }

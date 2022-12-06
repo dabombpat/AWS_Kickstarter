@@ -10,7 +10,7 @@ var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 var pledge_creator_url = base_url + "pledgecreator";
 
 
-function Pledge_Creator(){
+function Designer_Create_Pledge(){
   let username = currentuser.user;
   //console.log("USER Username is : ", username)
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ const handleSubmit  = () => {
 
 const handleBack  = () => {
   console.log("Navigating back to the Designer Landing Page (from create pledge page) ---------------------")
-  navigate('/project_page');
+  navigate('/Designer_ProjectPage');
 }
 
 
@@ -122,4 +122,4 @@ const handleBack  = () => {
   }
 
 
-export default Pledge_Creator;
+export default Designer_Create_Pledge;

@@ -51,8 +51,9 @@ function Create_Project_Page(){
 function SendtoALambda(project_name, project_story, designer_name, project_genre, fundraising_goal, project_deadline) {
   // Creating Payload to send to Lambda
   var data = {};
-  data["username"] = designer_name;
+  data["username"] = currentuser.user;
   data["name"] = project_name;
+  data["nickname"] = designer_name;
   data["story"] = project_story;
   data["type"] = project_genre;
   data["goal"] = fundraising_goal;
@@ -93,12 +94,12 @@ const navigate = useNavigate();
 
 const handleBack  = () => {
   console.log("Navigating back to the Designer Landing Page (from create project page) ---------------------")
-  navigate('/designer_landing');
+  navigate('/Designer_LandingPage');
 }
 
 const handleSubmit  = () => {
-  console.log(project_name,project_story,username,project_genre,fundraising_goal,project_deadline);
-  SendtoALambda(project_name,project_story,username,project_genre,fundraising_goal,project_deadline);
+  console.log(project_name,project_story,designer_name,project_genre,fundraising_goal,project_deadline);
+  SendtoALambda(project_name,project_story,designer_name,project_genre,fundraising_goal,project_deadline);
 }
 
 

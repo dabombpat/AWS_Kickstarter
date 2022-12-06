@@ -48,14 +48,13 @@ function Designer_LandingPage(){
       //console.log("result : ", response_info)
       hasloadedprojects = true;
       if(response_info != undefined){
-        console.log("ALEX: ", response_info[3])
-        for(let i=0; i < (4); i++){
+        for(let i=0; i < (response_info.length); i++){
           console.log(i)
           if(i>0){
-            setList(listofprojects => [...listofprojects, response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"]])
+            setList(listofprojects => [...listofprojects, [response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"]]])
           }
           else{
-            setList(listofprojects => [response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"]])
+            setList(listofprojects => [[response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"]]])
           }}
       console.log(listofprojects)
     }
@@ -67,16 +66,11 @@ function Designer_LandingPage(){
   };
   }
 
-
-
-
-
   function Create_Project(){
     hasloadedprojects = false;
     console.log("Navigating to Create A Project Page! ---------------------")
-    navigate('/create_project');
+    navigate('/Designer_Create_Project');
   }
-
     
   const handleBackToLogin  = () => {
     hasloadedprojects = false;
@@ -90,7 +84,7 @@ function Designer_LandingPage(){
     currentproject.projectname = project_name;
 
     console.log("Navigating to Project Page", project_name, "(from DLP page) ---------------------")
-    navigate('/project_page');
+    navigate('/Designer_ProjectPage');
   }
 
   function resethasloadedprojects(){
@@ -108,83 +102,30 @@ function Designer_LandingPage(){
     }
   }
 
-  function displayprojects(){
-    console.log("LOP :", listofprojects )
-    if(username == undefined){
-      return(
-        <center>
-        <h5>Please Re-Login to see your projects!</h5>
-        <br/>
-        <button onClick={() => {resethasloadedprojects(); handleBackToLogin()}}>Log Back In</button>
-        </center>
-      )
-    }
-    if(listofprojects.length != 0){
-      return(
-  
-        <center>
-      Project Name: {listofprojects[3]}<br/>
-      Developer Name: {listofprojects[0]}<br/>
-      Project Type: {listofprojects[1]}<br/>
-      Project Story: {listofprojects[2]}<br/>
-      Project Fundraising Goal: {listofprojects[5]}<br/>
-      Is the Project Launched? : {launchchecker(listofprojects[4])}<br/>
-      Funds Raised by the Project: {listofprojects[6]}<br/>
-      Project deadline: {listofprojects[7]}<br/><br/>
-      <center><button onClick={()=>handleToProject(1, listofprojects[3])} type="submit" className="btn">Go to Project : {listofprojects[3]}</button></center>
-      {/* <button onClick={() => {setList(initialprojectlist); resethasloadedprojects()}}>Reset List</button> */}
-      {/* <center><button onClick={()=>handleToProject(1, listofprojects[3])} type="submit" className="btn">Go to Project : {listofprojects[3]}</button></center> */}
 
-      {(listofprojects.length > 8) &&
-      <p>
-      Project Name: {listofprojects[11]}<br/>
-      Developer Name: {listofprojects[8]}<br/>
-      Project Type: {listofprojects[9]}<br/>
-      Project Story: {listofprojects[10]}<br/>
-      Project Fundraising Goal: {listofprojects[13]}<br/>
-      Is the Project Launched? : {launchchecker(listofprojects[12])}<br/>
-      Funds Raised by the Project: {listofprojects[14]}<br/>
-      Project deadline: {listofprojects[15]}<br/><br/>
-      <center><button onClick={()=>handleToProject(2, listofprojects[11])} type="submit" className="btn">Go to Project : {listofprojects[11]}</button></center>
-      </p>}
-
-      {(listofprojects.length > 16) &&
-      <p>
-      Project Name: {listofprojects[19]}<br/>
-      Developer Name: {listofprojects[16]}<br/>
-      Project Type: {listofprojects[17]}<br/>
-      Project Story: {listofprojects[18]}<br/>
-      Project Fundraising Goal: {listofprojects[21]}<br/>
-      Is the Project Launched? : {launchchecker(listofprojects[20])}<br/>
-      Funds Raised by the Project: {listofprojects[22]}<br/>
-      Project deadline: {listofprojects[23]}<br/><br/>
-      <center><button onClick={()=>handleToProject(3, listofprojects[19])} type="submit" className="btn">Go to Project : {listofprojects[19]}</button></center>
-      </p>}
-      {(listofprojects.length > 24) &&
-      <p>
-      Project Name: {listofprojects[27]}<br/>
-      Developer Name: {listofprojects[24]}<br/>
-      Project Type: {listofprojects[25]}<br/>
-      Project Story: {listofprojects[26]}<br/>
-      Project Fundraising Goal: {listofprojects[21]}<br/>
-      Is the Project Launched? : {launchchecker(listofprojects[28])}<br/>
-      Funds Raised by the Project: {listofprojects[29]}<br/>
-      Project deadline: {listofprojects[30]}<br/><br/>
-      <center><button onClick={()=>handleToProject(3, listofprojects[27])} type="submit" className="btn">Go to Project : {listofprojects[27]}</button></center>
-      </p>}
-
-        
-        
-        {/* <button onClick={() => {setList(initialprojectlist); resethasloadedprojects()}}>Reset List</button> */}
-        </center>
-      )}
-
-
-  }
+   function displayprojects(){
+    console.log("HERE")
+    return(listofprojects.map((item,index)=>{
+        console.log(index)
+         return( 
+         <center >
+          Project Name: {listofprojects[index][3]}<br/>
+          Developer Name: {listofprojects[index][0]}<br/>
+          Project Type: {listofprojects[index][1]}<br/>
+          Project Story: {listofprojects[index][2]}<br/>
+          Project Fundraising Goal: {listofprojects[index][5]}<br/>
+          Is the Project Launched? : {launchchecker(listofprojects[index][4])}<br/>
+          Funds Raised by the Project: {listofprojects[index][6]}<br/>
+          Project deadline: {listofprojects[index][7]}<br/>
+         <center><button onClick={()=>handleToProject(1, listofprojects[index][3])} type="submit" className="btn">Go to Project : {listofprojects[index][3]}</button></center><br/>
+         </center>
+          )}))
+}
 
 
 
 
+  console.log(listofprojects)
     return (
       <div>
 
@@ -193,6 +134,7 @@ function Designer_LandingPage(){
           <h1><center>You've Logged in!</center></h1>
           <br/>
           <center>If you have a project, it will show up here:</center>
+
 
           {displayprojects()}
           <br/>
