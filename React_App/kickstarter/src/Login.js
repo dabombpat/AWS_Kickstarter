@@ -80,11 +80,10 @@ function Login() {
     xhr.onloadend = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
       console.log('Received Response from Lambda') // ------------- Received Response From Lambda
-      console.log("response text : ", currentuser.type);
       currentuser.user = email;
       console.log(role)
       console.log(email)
-      currentuser.type = "Supporter";
+      currentuser.type = "Designer";
       if(LorR == "L"){
         processResponse(xhr.responseText);
       }

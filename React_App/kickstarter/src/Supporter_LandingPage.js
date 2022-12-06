@@ -21,16 +21,16 @@ function Supporter_LandingPage(){
     navigate('/');
   }
 
-  const [search, setSearchVal] = useState(null);
+  const [searchval, setSearchVal] = useState(null);
   
   const handleInputChange = (e) => {
     const {id , value} = e.target;
-    if(id === "search"){
+    if(id === "searchval"){
       setSearchVal(value);
     }
 }
 
-function DevlisterCaller(genre) { // Requests List of Projects by the logged in Designer
+function SearchGenre(genre) { // Requests List of Projects by the logged in Designer
   if(hasloadedprojects == false){
   hasloadedprojects = true;
   // Creating Lambda Payload
@@ -114,11 +114,8 @@ const handleToProject  = (project_number, project_name) => {
   currentproject.projectname = project_name;
 
   console.log("Navigating to Project Page", project_name, "(from DLP page) ---------------------")
-  //navigate('/Designer_ProjectPage');
+  navigate('/Supporter_ProjectPage');
 }
-
-
-
 
 
 
@@ -132,9 +129,10 @@ const handleToProject  = (project_number, project_name) => {
           <center>
           <div className="form">
             <div className="form-body">
-              <div className="search">
-                <label className="form__label" htmlFor="search">Search for a Project By Genre Here : </label>
-                <input className="form_label" type="text" value={search} onChange = {(e) => handleInputChange(e)} id="search" placeholder="Game"/>
+              <div className="searchval">
+                <label className="form__label" htmlFor="searchval">Search for a Project By Genre Here : </label>
+                <input className="form_label" type="text" value={searchval} onChange = {(e) => handleInputChange(e)} id="searchval" placeholder="Game"/>
+                <center><button onClick={()=>{SearchGenre(searchval); hasloadedprojects = false;}} type="submit" className="btn">Search</button></center>
               </div>
             </div>
           </div>

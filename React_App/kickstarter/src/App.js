@@ -11,7 +11,7 @@ import Model from "./Model.js";
 import Designer_ProjectPage from "./Designer_ProjectPage.js";
 import Designer_Create_Pledge from "./Designer_Create_Pledge";
 import Supporter_LandingPage from "./Supporter_LandingPage";
-
+import Supporter_ProjectPage from "./Supporter_ProjectPage";
 
 
 var currentuser = new Model("","")
@@ -34,6 +34,7 @@ return(
         <Route path="/Admin_LandingPage" element={<Admin_LandingPage/>} />
         <Route path="/Designer_Create_Pledge" element={<Designer_Create_Pledge/>} />
         <Route path="/Supporter_LandingPage" element={<Supporter_LandingPage/>} />
+        <Route path="/Supporter_ProjectPage" element={<Supporter_ProjectPage/>} />
     </Routes>
 </main>
 )
