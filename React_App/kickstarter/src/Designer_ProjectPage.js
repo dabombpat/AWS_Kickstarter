@@ -133,7 +133,6 @@ function Designer_ProjectPage(){
          <center >
           <h4><center>This is the pledge : "{pledge_list[index][1]}"</center></h4>
           <center><button onClick={()=>{handleDeletePledge(currentuser.user, currentproject.projectname, pledge_list[index][1], pledge_list[index][2]); resethasloaded()}} type="submit" className="btn">Delete This Pledge</button></center>
-          Pledge Name: {pledge_list[index][0]}<br/>
           Project Name: {pledge_list[index][0]}<br/>
           Pledge Reward: {pledge_list[index][1]}<br/>
           Required Pledge Amount: {pledge_list[index][2]}<br/>
@@ -174,7 +173,7 @@ function handleDeletePledge(username, projectname, reward, amount){
       //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
       alert("Deleted Pledge!")
       let hasloadedpledges = false;
-      navigate('/Designer_LandingPage');
+      //navigate('/Designer_LandingPage');
       if(response_info != undefined){
     }
     
@@ -210,7 +209,14 @@ function handleDeletePledge(username, projectname, reward, amount){
     )}
   }
 
-  function handleDeleteProject(project_name, designer_name){
+
+  function handleDeleteProject(project_name, designer_name, pledge_list){
+    for (let m=0; m<(pledge_list.length/5); m++){
+      let hasloadedpledges = false;
+      console.log("looking to delete pledge # ", m)
+      handleDeletePledge(currentproject.user, currentproject.projectname, pledge_list[m][1], pledge_list[m][2])
+    }
+    
     // Creating Payload to send to Lambda
     var data = {};
     data["username"] = designer_name;
@@ -231,6 +237,7 @@ function handleDeletePledge(username, projectname, reward, amount){
     xhr.onloadend = function () {
       if (xhr.readyState == XMLHttpRequest.DONE) {
         console.log('Received Response from Lambda')
+        let hasloadedprojects = false;
   
         var parsed_response = JSON.parse(xhr.responseText);
         //console.log("JSONParse Result :", responseunit)
@@ -309,7 +316,7 @@ function handleDeletePledge(username, projectname, reward, amount){
           {displaypledges()}
 
           <center><button onClick={()=>{handlecreateapledge(); resethasloaded()}} type="submit" className="btn">Create a new pledge</button></center>
-          <center><button onClick={()=>{handleDeleteProject(currentproject.projectname, currentuser.user); resethasloaded()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
+          <center><button onClick={()=>{handleDeleteProject(currentproject.projectname, currentuser.user, pledge_list); resethasloaded()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
           <center><button onClick={()=>{handleBack(); resethasloaded()}} type="submit" className="btn">Back to Homepage</button></center>
           </div>
 
