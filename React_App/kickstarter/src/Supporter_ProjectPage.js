@@ -19,7 +19,7 @@ let initialpledgelist = [];
 
 function Supporter_ProjectPage(){
   const navigate = useNavigate();
-  RequestProjectListFromLambda(currentuser.user, currentproject.projectname)
+  RequestProjectListFromLambda(currentproject.designer, currentproject.projectname)
   RequestPledgeListFromLambda(currentproject.projectname)
   const [listofprojects, setProjectList] = useState(initialprojectlist); 
   const [pledge_list, setPledgeList] = useState(initialpledgelist);

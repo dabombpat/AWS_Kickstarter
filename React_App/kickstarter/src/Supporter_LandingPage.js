@@ -91,7 +91,7 @@ function displayprojects(){
         Is the Project Launched? : {launchchecker(listofprojects[index][4])}<br/>
         Funds Raised by the Project: {listofprojects[index][6]}<br/>
         Project deadline: {listofprojects[index][7]}<br/>
-       <center><button onClick={()=>handleToProject(1, listofprojects[index][3])} type="submit" className="btn">Go to Project : {listofprojects[index][3]}</button></center><br/>
+       <center><button onClick={()=>handleToProject(listofprojects[index][0], listofprojects[index][3])} type="submit" className="btn">Go to Project : {listofprojects[index][3]}</button></center><br/>
        </center>
         )}))
 }
@@ -108,9 +108,9 @@ function launchchecker(YorN){
   }
 }
 
-const handleToProject  = (project_number, project_name) => {
+const handleToProject  = (developer_name, project_name) => {
   hasloadedprojects = false;
-  currentproject.projectnum = project_number;
+  currentproject.designer = developer_name;
   currentproject.projectname = project_name;
 
   console.log("Navigating to Project Page", project_name, "(from DLP page) ---------------------")

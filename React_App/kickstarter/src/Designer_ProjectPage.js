@@ -10,12 +10,15 @@ var pledge_info_url = base_url + "pledgeviewer";      // POST: {arg1:5, arg2:7}
 var delete_project_url = base_url + "deleteproject";      // POST: {arg1:5, arg2:7}
 var delete_pledge_url = base_url + "deletepledge";      // POST: {arg1:5, arg2:7}
 var launch_project_url = base_url + "launchproject";      // POST: {arg1:5, arg2:7}
+var pledge_supporter_url = base_url + "pledgesupporterviewer";      // POST: {arg1:5, arg2:7}
 
 
 let hasloadedprojects = false;
 let hasloadedpledges = false;
+let hasloadedpledgesupporters = false;
 let initialprojectlist = [];
 let initialpledgelist = [];
+let initialpledgesupporterlist = [];
 
 function Designer_ProjectPage(){
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ function Designer_ProjectPage(){
   RequestPledgeListFromLambda(currentproject.projectname)
   const [listofprojects, setProjectList] = useState(initialprojectlist); 
   const [pledge_list, setPledgeList] = useState(initialpledgelist);
+  const [pledge_supporter_list, setPledgeSupporterList] = useState(initialpledgesupporterlist);
 
   function RequestProjectListFromLambda(designer_name, project_name) {
     if(hasloadedprojects == false){
@@ -112,6 +116,57 @@ function Designer_ProjectPage(){
   }
   }
 
+  function RequestPledgeSupporterListFromLambda(project_name, reward) {
+    if(hasloadedpledgesupporters == false){
+      hasloadedpledgesupporters = true;
+    // Creating Payload to send to Lambda
+    var data = {};
+    data["projectname"] = project_name;
+    data["reward"] = reward;
+    
+    // to work with API gateway, I need to wrap inside a 'body'
+    var body = {}
+    body["body"] = JSON.stringify(data);
+    var js = JSON.stringify(body);
+  
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", pledge_supporter_url, true);
+    xhr.send(js);
+  
+    console.log('Sent Request to Lambda for list of pledge supporter: ')
+    // This will process results and update HTML as appropriate. 
+    
+    xhr.onloadend = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        console.log('Received Pledge Supporter Data from Lambda')
+        
+
+        var parsed_response = JSON.parse(xhr.responseText);
+        //console.log("JSONParse Result :", responseunit)
+        var response_info  = parsed_response["result"];
+        //console.log("result : ", response_info)
+        
+        if(response_info != undefined){
+          for(let i=0; i < (response_info.length); i++){
+            //console.log(i)
+            if(i>0){
+              setPledgeSupporterList(pledge_supporter_list => [...pledge_supporter_list, response_info[i]["projectname"], response_info[i]["reward"], response_info[i]["supporterusername"]])
+            }
+            else{
+              setPledgeSupporterList(pledge_supporter_list => [[response_info[i]["projectname"], response_info[i]["reward"], response_info[i]["supporterusername"]]])
+            }}
+      }
+  
+      } else {
+        console.log("did not receive projects back")
+      }
+  };
+  }
+  }
+
+
+
+
 
   function launchchecker(YorN){
     if(YorN == 0){
@@ -138,6 +193,7 @@ function Designer_ProjectPage(){
           Required Pledge Amount: {pledge_list[index][2]}<br/>
           Max Supporters : {pledge_list[index][3]}<br/>
           Current Supporters : {pledge_list[index][4]}<br/>
+          List of Current Supporters : {pledge_supporter_list[index][2]}<br/>
           <br/></center>
           )}))
 }
@@ -211,7 +267,7 @@ function handleDeletePledge(username, projectname, reward, amount){
 
 
   function handleDeleteProject(project_name, designer_name, pledge_list){
-    for (let m=0; m<(pledge_list.length/5); m++){
+    for (let m=0; m<(pledge_list.length); m++){
       let hasloadedpledges = false;
       console.log("looking to delete pledge # ", m)
       handleDeletePledge(currentproject.user, currentproject.projectname, pledge_list[m][1], pledge_list[m][2])
