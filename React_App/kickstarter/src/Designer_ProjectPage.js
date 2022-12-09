@@ -15,7 +15,6 @@ var pledge_supporter_url = base_url + "pledgesupporterviewer";      // POST: {ar
 
 let hasloadedprojects = false;
 let hasloadedpledges = false;
-let hasloadedpledgesupporters = false;
 let initialprojectlist = [];
 let initialpledgelist = [];
 let initialpledgesupporterlist = [];
@@ -99,6 +98,7 @@ function Designer_ProjectPage(){
         
         if(response_info != undefined){
           for(let i=0; i < (response_info.length); i++){
+            RequestPledgeSupporterListFromLambda(currentproject.projectname, response_info[i]["reward"])
             //console.log(i)
             if(i>0){
               setPledgeList(pledge_list => [...pledge_list, [response_info[i]["projectname"], response_info[i]["reward"], response_info[i]["amount"], response_info[i]["maxsupporters"], response_info[i]["currentsupporters"]]])
@@ -106,7 +106,6 @@ function Designer_ProjectPage(){
             else{
               setPledgeList(pledge_list => [[response_info[i]["projectname"], response_info[i]["reward"], response_info[i]["amount"], response_info[i]["maxsupporters"], response_info[i]["currentsupporters"]]])
             }}
-        console.log(listofprojects)
       }
   
       } else {
@@ -117,8 +116,6 @@ function Designer_ProjectPage(){
   }
 
   function RequestPledgeSupporterListFromLambda(project_name, reward) {
-    if(hasloadedpledgesupporters == false){
-      hasloadedpledgesupporters = true;
     // Creating Payload to send to Lambda
     var data = {};
     data["projectname"] = project_name;
@@ -148,13 +145,16 @@ function Designer_ProjectPage(){
         
         if(response_info != undefined){
           for(let i=0; i < (response_info.length); i++){
-            //console.log(i)
+            //console.log(response_info[i]["supporterusername"])
             if(i>0){
-              setPledgeSupporterList(pledge_supporter_list => [...pledge_supporter_list, response_info[i]["projectname"], response_info[i]["reward"], response_info[i]["supporterusername"]])
+              setPledgeSupporterList(pledge_supporter_list => [[...pledge_supporter_list, response_info[i]["supporterusername"]]])
             }
             else{
-              setPledgeSupporterList(pledge_supporter_list => [[response_info[i]["projectname"], response_info[i]["reward"], response_info[i]["supporterusername"]]])
-            }}
+              setPledgeSupporterList(pledge_supporter_list => [[response_info[i]["supporterusername"]]])
+              
+            }
+            
+          }
       }
   
       } else {
@@ -162,10 +162,6 @@ function Designer_ProjectPage(){
       }
   };
   }
-  }
-
-
-
 
 
   function launchchecker(YorN){
@@ -181,9 +177,7 @@ function Designer_ProjectPage(){
   }
 
   function displaypledges(){
-    //console.log("HERE")
     return(pledge_list.map((item,index)=>{
-        //console.log(index)
          return( 
          <center >
           <h4><center>This is the pledge : "{pledge_list[index][1]}"</center></h4>
@@ -192,10 +186,22 @@ function Designer_ProjectPage(){
           Pledge Reward: {pledge_list[index][1]}<br/>
           Required Pledge Amount: {pledge_list[index][2]}<br/>
           Max Supporters : {pledge_list[index][3]}<br/>
-          Current Supporters : {pledge_list[index][4]}<br/>
-          List of Current Supporters : {pledge_supporter_list[index][2]}<br/>
+          Current Supporters : {pledge_list[index][4]}<br/><br/>
+          <br/>
           <br/></center>
           )}))
+}
+
+function displaypledgesupporters(){
+  console.log(pledge_supporter_list)
+  return(pledge_supporter_list.map((item,index)=>{
+       return( 
+       <center >
+          List of Current Supporters : {displaypledgesupporters()} 
+          --------------------------------------
+        Supporter #{index}: {pledge_supporter_list[0][index]}<br/>
+        </center>
+        )}))
 }
 
 function handleDeletePledge(username, projectname, reward, amount){
@@ -370,6 +376,7 @@ function handleDeletePledge(username, projectname, reward, amount){
 
           {displayprojectinfo()}
           {displaypledges()}
+          
 
           <center><button onClick={()=>{handlecreateapledge(); resethasloaded()}} type="submit" className="btn">Create a new pledge</button></center>
           <center><button onClick={()=>{handleDeleteProject(currentproject.projectname, currentuser.user, pledge_list); resethasloaded()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
