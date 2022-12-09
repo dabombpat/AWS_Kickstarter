@@ -111,7 +111,8 @@ function Designer_ProjectPage(){
       } else {
         console.log("did not receive projects back")
       }
-  };
+
+    };
   }
   }
 
@@ -146,11 +147,11 @@ function Designer_ProjectPage(){
         if(response_info != undefined){
           for(let i=0; i < (response_info.length); i++){
             //console.log(response_info[i]["supporterusername"])
-            if(i>0){
-              setPledgeSupporterList(pledge_supporter_list => [[...pledge_supporter_list, response_info[i]["supporterusername"]]])
+            if(pledge_supporter_list[0] != ""){
+              setPledgeSupporterList(pledge_supporter_list => [...pledge_supporter_list, [response_info[i]["supporterusername"], response_info[i]["reward"]]])
             }
             else{
-              setPledgeSupporterList(pledge_supporter_list => [[response_info[i]["supporterusername"]]])
+              setPledgeSupporterList(pledge_supporter_list => [[response_info[i]["supporterusername"], response_info[i]["reward"]]])
               
             }
             
@@ -187,7 +188,6 @@ function Designer_ProjectPage(){
           Required Pledge Amount: {pledge_list[index][2]}<br/>
           Max Supporters : {pledge_list[index][3]}<br/>
           Current Supporters : {pledge_list[index][4]}<br/><br/>
-          <br/>
           <br/></center>
           )}))
 }
@@ -197,9 +197,7 @@ function displaypledgesupporters(){
   return(pledge_supporter_list.map((item,index)=>{
        return( 
        <center >
-          List of Current Supporters : {displaypledgesupporters()} 
-          --------------------------------------
-        Supporter #{index}: {pledge_supporter_list[0][index]}<br/>
+        Supporter {pledge_supporter_list[index][0]} has claimed the pledge "{pledge_supporter_list[index][1]}"<br/>
         </center>
         )}))
 }
@@ -367,6 +365,8 @@ function handleDeletePledge(username, projectname, reward, amount){
 };
 }
 
+
+console.log("!!! :", pledge_supporter_list)
     return (
         <div>
 
@@ -376,7 +376,10 @@ function handleDeletePledge(username, projectname, reward, amount){
 
           {displayprojectinfo()}
           {displaypledges()}
-          
+
+          <center>List of Current Supporters :  
+          --------------------------------------
+          {displaypledgesupporters()}</center><br/><br/>
 
           <center><button onClick={()=>{handlecreateapledge(); resethasloaded()}} type="submit" className="btn">Create a new pledge</button></center>
           <center><button onClick={()=>{handleDeleteProject(currentproject.projectname, currentuser.user, pledge_list); resethasloaded()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
