@@ -27,6 +27,14 @@ function Supporter_LandingPage(){
     navigate('/');
   }
 
+  const handleToSupporterActivity  = () => {
+    console.log("Navigating To Supporter Activity (from SLP page) ---------------------")
+    hasaddedfunds = false
+    navigate('/Supporter_ActivityPage');
+  }
+
+
+
   const [searchval, setSearchVal] = useState(null);
   
   const handleInputChange = (e) => {
@@ -150,7 +158,15 @@ function displayfunds(){
   return(
        <center >
         Your Funds: {funds[1]}<br/>
-       <center><button onClick={()=>handleToAddFunds()} type="submit" className="btn">Add Funds : {}</button></center><br/>
+       <center><button onClick={()=>handleToAddFunds()} type="submit" className="btn">Add Funds : {}</button></center>
+       </center>
+        )
+}
+
+function displaysupporteractivity(){
+  return(
+       <center>
+       <center><button onClick={()=>handleToSupporterActivity()} type="submit" className="btn">Go To Your Activity</button></center><br/>
        </center>
         )
 }
@@ -205,6 +221,7 @@ const handleToAddFunds  = () => {
           </center>
           {displayfunds()}
           <br/><br/>
+          {displaysupporteractivity()}
 
           {displayprojects()}
 

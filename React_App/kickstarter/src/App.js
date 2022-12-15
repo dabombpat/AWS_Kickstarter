@@ -15,7 +15,7 @@ import Supporter_ProjectPage from "./Supporter_ProjectPage";
 import Supporter_AddFunds from "./Supporter_AddFunds";
 import Supporter_DirectSupport from "./Supporter_DirectSupport";
 import Designer_ProjectActivity from "./Designer_ProjectActivity";
-
+import Supporter_ActivityPage from "./Supporter_ActivityPage";
 
 
 var currentuser = new Model("","")
@@ -42,6 +42,7 @@ return(
         <Route path="/Supporter_AddFunds" element={<Supporter_AddFunds/>} />
         <Route path="/Supporter_DirectSupport" element={<Supporter_DirectSupport/>} />
         <Route path="/Designer_ProjectActivity" element={<Designer_ProjectActivity/>} />
+        <Route path="/Supporter_ActivityPage" element={<Supporter_ActivityPage/>} />
     </Routes>
 </main>
 )
