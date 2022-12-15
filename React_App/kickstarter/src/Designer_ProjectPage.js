@@ -319,6 +319,11 @@ function handleDeletePledge(username, projectname, reward, amount){
     navigate('/Designer_Create_Pledge');
   }
 
+  function handleToProjectActivity(){
+    console.log("Navigating to Project Activity Page")
+    navigate('/Designer_ProjectActivity');
+  }
+
   const handleBack  = () => {
     console.log("Navigating back to the Designer Landing Page (from project landing) ---------------------")
     navigate('/Designer_LandingPage');
@@ -383,6 +388,7 @@ console.log("!!! :", pledge_supporter_list)
 
           <center><button onClick={()=>{handlecreateapledge(); resethasloaded()}} type="submit" className="btn">Create a new pledge</button></center>
           <center><button onClick={()=>{handleDeleteProject(currentproject.projectname, currentuser.user, pledge_list); resethasloaded()}} type="submit" className="btn">DELETE THIS PROJECT</button></center>
+          <center><button onClick={()=>{handleToProjectActivity(); resethasloaded()}} type="submit" className="btn">View Project Activity</button></center>
           <center><button onClick={()=>{handleBack(); resethasloaded()}} type="submit" className="btn">Back to Homepage</button></center>
           </div>
 

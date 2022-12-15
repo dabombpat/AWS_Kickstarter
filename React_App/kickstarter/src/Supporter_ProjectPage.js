@@ -250,10 +250,7 @@ function handleClaimPledge(supporter_username, project_name, pledge_reward, pled
   };
   }
 
-  function handlecreateapledge(){
-    console.log("Navigating to Create a Pledge")
-    navigate('/Designer_Create_Pledge');
-  }
+
 
   const handleBack  = () => {
     console.log("Navigating back to the Designer Landing Page (from project landing) ---------------------")

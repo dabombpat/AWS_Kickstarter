@@ -14,6 +14,9 @@ import Supporter_LandingPage from "./Supporter_LandingPage";
 import Supporter_ProjectPage from "./Supporter_ProjectPage";
 import Supporter_AddFunds from "./Supporter_AddFunds";
 import Supporter_DirectSupport from "./Supporter_DirectSupport";
+import Designer_ProjectActivity from "./Designer_ProjectActivity";
+
+
 
 var currentuser = new Model("","")
 export {currentuser}
@@ -38,6 +41,7 @@ return(
         <Route path="/Supporter_ProjectPage" element={<Supporter_ProjectPage/>} />
         <Route path="/Supporter_AddFunds" element={<Supporter_AddFunds/>} />
         <Route path="/Supporter_DirectSupport" element={<Supporter_DirectSupport/>} />
+        <Route path="/Designer_ProjectActivity" element={<Designer_ProjectActivity/>} />
     </Routes>
 </main>
 )
