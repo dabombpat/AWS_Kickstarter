@@ -260,6 +260,12 @@ function handleClaimPledge(supporter_username, project_name, pledge_reward, pled
     navigate('/Supporter_LandingPage');
   }
 
+  const handletoDirectSupport  = () => {
+    console.log("Navigating back to the Supporter Direct Support Page (from project landing) ---------------------")
+    navigate('/Supporter_DirectSupport');
+  }
+
+
   function resethasloaded(){
     hasloadedprojects = false;
     hasloadedpledges = false;
@@ -307,6 +313,9 @@ function handleClaimPledge(supporter_username, project_name, pledge_reward, pled
           <h1><center>This is the project : "{currentproject.projectname}"</center></h1>
 
           {displayprojectinfo()}
+
+          <center><button onClick={()=>{handletoDirectSupport(); resethasloaded()}} type="submit" className="btn">Direct Support</button></center>
+
           {displaypledges()}
 
           <center><button onClick={()=>{handleBack(); resethasloaded()}} type="submit" className="btn">Back to Homepage</button></center>

@@ -46,8 +46,8 @@ function Login() {
   function Handle_Register_Supporter() {
     alert('Attempting to Register Supporter');
     //event.preventDefault();
-    console.log("username : ", email)
-    console.log("password : ", password)
+    //console.log("username : ", email)
+    //console.log("password : ", password)
     SendtoALambda(email, password, "R", "Supporter");
   }
 
@@ -111,6 +111,7 @@ function Login() {
       }
 
       if(currentuser.type == "Supporter"){
+        currentuser.user = email;
         console.log("Navigating to Supporter Landing Page! ---------------------")
         navigate('/Supporter_LandingPage');
         }

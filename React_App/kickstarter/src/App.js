@@ -12,7 +12,8 @@ import Designer_ProjectPage from "./Designer_ProjectPage.js";
 import Designer_Create_Pledge from "./Designer_Create_Pledge";
 import Supporter_LandingPage from "./Supporter_LandingPage";
 import Supporter_ProjectPage from "./Supporter_ProjectPage";
-
+import Supporter_AddFunds from "./Supporter_AddFunds";
+import Supporter_DirectSupport from "./Supporter_DirectSupport";
 
 var currentuser = new Model("","")
 export {currentuser}
@@ -35,6 +36,8 @@ return(
         <Route path="/Designer_Create_Pledge" element={<Designer_Create_Pledge/>} />
         <Route path="/Supporter_LandingPage" element={<Supporter_LandingPage/>} />
         <Route path="/Supporter_ProjectPage" element={<Supporter_ProjectPage/>} />
+        <Route path="/Supporter_AddFunds" element={<Supporter_AddFunds/>} />
+        <Route path="/Supporter_DirectSupport" element={<Supporter_DirectSupport/>} />
     </Routes>
 </main>
 )
