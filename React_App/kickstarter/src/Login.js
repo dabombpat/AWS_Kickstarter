@@ -1,15 +1,14 @@
 import './App.css';
 import React from 'react';
-import App from './App';
+import currentuser from './App';
 import {Link, redirect, Routes, Route, useNavigate} from 'react-router-dom';
 
+
 // REPLACE URL BELOW WITH YOURS!
-var base_url = "https://isiw3ngn0f.execute-api.us-east-1.amazonaws.com/Prod/";
+var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 
-var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
-
-
-
+var login_url = base_url + "login";      // Register URL
+var register_url = base_url + "register";      // Register URL
 
 
 
@@ -20,93 +19,103 @@ function Login() {
   const navigate = useNavigate();
 
   function handleSubmit(){
-    console.log("worthless function")
   }
 
-  function Handle_Login(){
-    console.log("Attempting to Log In")
-    Handle_Submit("L");
-  }
-  function Handle_Register(){
-    console.log("Attempting to Register")
-    Handle_Submit("R");
+  function Handle_Login() {
+    alert('Attempting to Login');
+    console.log("username : ", email)
+    console.log("password : ", password)
+    if(email == "admin" && password == "admin"){
+      console.log("Admin!")
+      console.log("Navigating to Admin Landing Page! ---------------------")
+      currentuser.user = email;
+      currentuser.type = "Admin";
+      navigate('/Admin_LandingPage');
+    }
+    SendtoALambda(email, password, "L", "");
   }
 
-  function Handle_Submit(LorR) {
-    alert('Attempting to Login or Register');
+  function Handle_Register_Designer() {
+    alert('Attempting to Register Designer');
     //event.preventDefault();
-    console.log(email)
-    console.log(password)
-    console.log(LorR)
-    //TODO: check DB for credentials
-    SendtoALambda(email, password, LorR);
+    console.log("username : ", email)
+    console.log("password : ", password)
+    SendtoALambda(email, password, "R", "Designer");
   }
 
-  function SendtoALambda(email, password, LorR) {
-    var form = document.addForm;
-    var arg1 = email;
-    var arg2 = password;
-    var arg3 = LorR;
-  
-    // my actual payload for arg1/arg2
+  function Handle_Register_Supporter() {
+    alert('Attempting to Register Supporter');
+    //event.preventDefault();
+    //console.log("username : ", email)
+    //console.log("password : ", password)
+    SendtoALambda(email, password, "R", "Supporter");
+  }
+
+  function SendtoALambda(email, password, LorR, role) {
+    // creating payload
     var data = {};
-    data["arg1"] = arg1;
-    data["arg2"] = arg2;
-    data["arg3"] = arg3;
+    data["username"] = email;
+    data["password"] = password;
+    data["role"] = role;
+
     
-    // to work with API gateway, I need to wrap inside a 'body'
+    // wrapping payload inside body
     var body = {}
-    body["body"] = JSON.stringify(data);
+    body["body"] = JSON.stringify(data); // ------------- Stringifying Data
     var js = JSON.stringify(body);
   
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", add_url, true);
-  
-    // send the collected data as JSON
+    if(LorR == "L"){
+      xhr.open("POST", login_url, true);
+    }
+    if(LorR == "R"){
+      xhr.open("POST", register_url, true);
+    }
+
     //console.log(js);
     xhr.send(js);
-
-    console.log('Sent Email and Password to Lambda')
-    // This will process results and update HTML as appropriate. 
+    console.log('Sent Data to Lambda') // ------------- Sent Data to Lambda
     
+    // This will process results and update HTML as appropriate. 
     xhr.onloadend = function () {
     if (xhr.readyState == XMLHttpRequest.DONE) {
-      console.log('received a status from lambda function')
-      console.log("response text : ", xhr.responseText);
-      processAddResponse(xhr.responseText);
+      console.log('Received Response from Lambda') // ------------- Received Response From Lambda
+      currentuser.user = email;
+      console.log(role)
+      console.log(email)
+      //currentuser.type = "Designer";
+      if(LorR == "L"){
+        processResponse(xhr.responseText);
+      }
     } else {
-      processAddResponse("N/A");
+      processResponse("N/A");
     }
 
   };
   }
 
 
-
-
-
-  /**
-   * Respond to server JSON object.
-   *
-   */
-  function processAddResponse(result) {
-    // Can grab any DIV or SPAN HTML element and can then manipulate its
-    // contents dynamically via javascript
-    //console.log("PAR Result :", result)
-
-    var js = JSON.parse(result);
-    //console.log("JSONParse Result :", js)
+  function processResponse(result) {
+    var js = JSON.parse(result); // Parsing response from Lambda
     var status  = js["statusCode"];
+    var DesignerorSupporter  = js["body"];
+    //console.log(body)
+    currentuser.type = DesignerorSupporter;
 
-    console.log("found status : ", status)
+    if (status == 200) {
+      console.log("Correct Username and Password!")
 
-    
-    // Update computation result
-    if (status == 205) {
-      console.log("Switch Page!")
-      //document.addForm.result.value = result;
+      if(currentuser.type == "Designer"){
+      console.log("Navigating to Designer Landing Page! ---------------------")
+      navigate('/Designer_LandingPage');
+      }
 
-      navigate('/designer_landing');
+      if(currentuser.type == "Supporter"){
+        currentuser.user = email;
+        console.log("Navigating to Supporter Landing Page! ---------------------")
+        navigate('/Supporter_LandingPage');
+        }
+      
     } else {
       console.log("Incorrect username or password")
     }
@@ -146,8 +155,9 @@ function Login() {
       
     </form></center>
 
-    <center><button onClick={Handle_Login}>Log In</button></center>
-    <center><button onClick={Handle_Register}>Register</button></center>
+    <center><br/><button onClick={Handle_Login}>Log In</button></center>
+    <center><br/><button onClick={Handle_Register_Designer}>Register Designer</button></center>
+    <center><button onClick={Handle_Register_Supporter}>Register Supporter</button></center>
 
     </div>
   );

@@ -1,48 +1,50 @@
+// JACKS WORKING BRANCH
+
 import React from "react";
 import Login from "./Login.js"
 import Designer_LandingPage from "./Designer_LandingPage.js"
 import { Component } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Create_Project_Page from "./Create_Project_Page.js";
+import Designer_Create_Project from "./Designer_Create_Project.js";
 import Admin_LandingPage from "./Admin_LandingPage.js";
-
-// REPLACE URL BELOW WITH YOURS!
-var base_url = "https://nv069k0pjd.execute-api.us-east-1.amazonaws.com/Prod/";
-var add_url = base_url + "hello";      // POST: {arg1:5, arg2:7}
-
-
-
-function ChoosePage(PageNum){
-if(PageNum == 1){
-    return <Login/>
-}
+import Model from "./Model.js";
+import Designer_ProjectPage from "./Designer_ProjectPage.js";
+import Designer_Create_Pledge from "./Designer_Create_Pledge";
+import Supporter_LandingPage from "./Supporter_LandingPage";
+import Supporter_ProjectPage from "./Supporter_ProjectPage";
+import Supporter_AddFunds from "./Supporter_AddFunds";
+import Supporter_DirectSupport from "./Supporter_DirectSupport";
+import Designer_ProjectActivity from "./Designer_ProjectActivity";
+import Supporter_ActivityPage from "./Supporter_ActivityPage";
 
 
-if(PageNum == 2){
-    return <Designer_LandingPage/>
-}
-}
+var currentuser = new Model("","")
+export {currentuser}
 
-
-
+var currentproject = new Model("","")
+export {currentproject}
 
 
 function App(){
-
-
-let PageNum = 1
 
 
 return(
 <main>
     <Routes>
         <Route path="/"  element={<Login/>} exact/>
-        <Route path="/designer_landing" element={<Designer_LandingPage/>} />
-        <Route path="/create_project" element={<Create_Project_Page/>} />
-        <Route path="/admin_landing" element={<Admin_LandingPage/>} />
+        <Route path="/Designer_ProjectPage" element={<Designer_ProjectPage/>} />
+        <Route path="/Designer_LandingPage" element={<Designer_LandingPage/>} />
+        <Route path="/Designer_Create_Project" element={<Designer_Create_Project/>} />
+        <Route path="/Admin_LandingPage" element={<Admin_LandingPage/>} />
+        <Route path="/Designer_Create_Pledge" element={<Designer_Create_Pledge/>} />
+        <Route path="/Supporter_LandingPage" element={<Supporter_LandingPage/>} />
+        <Route path="/Supporter_ProjectPage" element={<Supporter_ProjectPage/>} />
+        <Route path="/Supporter_AddFunds" element={<Supporter_AddFunds/>} />
+        <Route path="/Supporter_DirectSupport" element={<Supporter_DirectSupport/>} />
+        <Route path="/Designer_ProjectActivity" element={<Designer_ProjectActivity/>} />
+        <Route path="/Supporter_ActivityPage" element={<Supporter_ActivityPage/>} />
     </Routes>
 </main>
-/* <Route path="/shop" component={Shop} /> */
 )
 }
 export default App;
