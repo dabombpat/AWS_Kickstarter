@@ -212,7 +212,7 @@ const handleToAddFunds  = () => {
           <div className="form">
             <div className="form-body">
               <div className="searchval">
-                <label className="form__label" htmlFor="searchval">Search for a Project By Genre Here : </label>
+                <label className="form__label" htmlFor="searchval">Search for a Project By Genre or Desription (e.g. project story) Here : </label>
                 <input className="form_label" type="text" value={searchval} onChange = {(e) => handleInputChange(e)} id="searchval" placeholder="Game"/>
                 <center><button onClick={()=>{SearchGenre(searchval); hasloadedprojects = false;}} type="submit" className="btn">Search</button></center>
               </div>

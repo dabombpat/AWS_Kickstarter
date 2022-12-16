@@ -18,8 +18,8 @@ function Supporter_AddFunds(){
   AddFunds(currentuser.user, 0)
 
   const handleBackToLogin  = () => {
-    console.log("Navigating back to the Login Page (from ALP page) ---------------------")
-    navigate('/');
+    console.log("Navigating back to the Supporter Landing Page (from ALP page) ---------------------")
+    navigate('/Supporter_LandingPage');
   }
 
   const [amountofcash, setamountofcash] = useState(null);
@@ -108,7 +108,7 @@ function displayfunds(){
 
 
           <br/>
-          <center><button onClick={()=>handleBackToLogin()} type="submit" className="btn">Back To Login</button></center>
+          <center><button onClick={()=>handleBackToLogin()} type="submit" className="btn">Back To Home Page</button></center>
           </div>
         );
     }

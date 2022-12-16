@@ -31,7 +31,7 @@ function Admin_LandingPage(){
 
 
 
-  function Project_List_Caller(username) { // Requests List of Projects by the logged in Designer
+  function Project_List_Caller() { // Requests List of Projects by the logged in Designer
     if(hasloadedprojects == false){
     // Creating Lambda Payload
     var data = {};
@@ -57,10 +57,11 @@ function Admin_LandingPage(){
       //console.log("JSONParse Result :", responseunit)
       var response_info  = parsed_response["result"];
       //console.log("result : ", response_info)
-      hasloadedprojects = true;
+      
       if(response_info != undefined){
         for(let i=0; i < (response_info.length); i++){
           console.log(i)
+          hasloadedprojects = true;
           if(i>0){
             setList(listofprojects => [...listofprojects, [response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"]]])
           }
@@ -76,9 +77,6 @@ function Admin_LandingPage(){
   }
   };
   }
-
-
-
 
   function handleDeleteProject(project_name, designer_name, pledge_list){
     for (let m=0; m<(pledge_list.length); m++){
@@ -114,6 +112,7 @@ function Admin_LandingPage(){
         var response_info  = parsed_response["result"];
         //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
         alert("Deleted Project!")
+        reset()
         navigate('/');
         if(response_info != undefined){
       }
@@ -154,7 +153,6 @@ function Admin_LandingPage(){
         var response_info  = parsed_response["result"];
         //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
         alert("Deleted Pledge!")
-        let hasloadedpledges = false;
         //navigate('/Designer_LandingPage');
         if(response_info != undefined){
       }
@@ -164,6 +162,7 @@ function Admin_LandingPage(){
       }
   };
   }
+
   function RequestPledgeSupporterListFromLambda(project_name, reward) {
     // Creating Payload to send to Lambda
     var data = {};
@@ -211,6 +210,7 @@ function Admin_LandingPage(){
       }
   };
   }
+
   function RequestPledgeListFromLambda(project_name) {
     if(hasloadedpledges == false){
       hasloadedpledges = true;
@@ -260,9 +260,17 @@ function Admin_LandingPage(){
   }
   }
 
-
-
-
+  function goalchecker(fundsraised, goal){
+    if(goal > fundsraised){
+      return("No")
+    }
+    if(goal < fundsraised){
+      return("Yes")
+    }
+    else{
+      return("error")
+    }
+  }
 
   function displayprojects(){
       return(listofprojects.map((item,index)=>{
@@ -277,14 +285,17 @@ function Admin_LandingPage(){
             Is the Project Launched? : {launchchecker(listofprojects[index][4])}<br/>
             Funds Raised by the Project: {listofprojects[index][6]}<br/>
             Project deadline: {listofprojects[index][7]}<br/>
+            Has the Project Reached it's Goal? : {goalchecker(listofprojects[index][6], listofprojects[index][5])}<br/>
             <center><button onClick={()=>handleDeleteProject(listofprojects[index][3], listofprojects[index][0], pledge_list)} type="submit" className="btn">Delete Project : {listofprojects[index][3]}</button></center><br/><br/>
           </center>
             )}))
   }
 
-  function resethasloadedprojects(){
+  function reset(){
     hasloadedprojects = false;
+    hasloadedpledges = false;
   }
+
   function launchchecker(YorN){
     if(YorN == 0){
       return("No")
@@ -299,10 +310,14 @@ function Admin_LandingPage(){
 
   const handleBackToLogin  = () => {
     console.log("Navigating back to the Login Page (from ALP page) ---------------------")
+    hasloadedprojects = false;
+    hasloadedpledges = false;
     navigate('/');
   }
+
   const handleReapProjects  = () => {
     console.log("Reaping Projects")
+    reset()
     alert("Attempting to Reap Projects")
     var data = {}
     var body = {}
@@ -326,7 +341,6 @@ function Admin_LandingPage(){
       //console.log("JSONParse Result :", responseunit)
       var response_info  = parsed_response["result"];
       //console.log("result : ", response_info)
-      hasloadedprojects = true;
       if(response_info != undefined){
         for(let i=0; i < (response_info.length); i++){
           console.log(i)
@@ -351,12 +365,12 @@ function Admin_LandingPage(){
       
           <h1><center>Welcome to the Admin Home Page!</center></h1>
           <h1><center>You're Logged in as Admin!</center></h1>
-          <center><button onClick={()=>handleReapProjects()} type="submit" className="btn">Reap Projects</button></center>
+          <center><button onClick={()=>{handleReapProjects();hasloadedprojects = false; handleBackToLogin()}} type="submit" className="btn">Reap Projects</button></center>
           <br/><br/>
           {displayprojects()}
 
           <br/>
-          <center><button onClick={()=>handleBackToLogin()} type="submit" className="btn">Back To Login</button></center>
+          <center><button onClick={()=>{hasloadedprojects = false;handleBackToLogin()}} type="submit" className="btn">Back To Login</button></center>
           </div>
 
           

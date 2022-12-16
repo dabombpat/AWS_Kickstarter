@@ -103,6 +103,18 @@ function Designer_LandingPage(){
     }
   }
 
+  function goalchecker(fundsraised, goal){
+    if(goal > fundsraised){
+      return("No")
+    }
+    if(goal < fundsraised){
+      return("Yes")
+    }
+    else{
+      return("error")
+    }
+  }
+
 
    function displayprojects(){
     return(listofprojects.map((item,index)=>{
@@ -116,6 +128,7 @@ function Designer_LandingPage(){
           Project Fundraising Goal: {listofprojects[index][5]}<br/>
           Is the Project Launched? : {launchchecker(listofprojects[index][4])}<br/>
           Funds Raised by the Project: {listofprojects[index][6]}<br/>
+          Has the Project Reached it's Goal? : {goalchecker(listofprojects[index][6], listofprojects[index][5])}<br/>
           Project deadline: {listofprojects[index][7]}<br/>
          <center><button onClick={()=>handleToProject(1, listofprojects[index][3])} type="submit" className="btn">Go to Project : {listofprojects[index][3]}</button></center><br/>
          </center>

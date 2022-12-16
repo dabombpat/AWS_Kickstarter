@@ -164,7 +164,6 @@ function Designer_ProjectPage(){
   };
   }
 
-
   function launchchecker(YorN){
     if(YorN == 0){
       return("No")
@@ -190,58 +189,70 @@ function Designer_ProjectPage(){
           Current Supporters : {pledge_list[index][4]}<br/><br/>
           <br/></center>
           )}))
-}
+  }
 
-function displaypledgesupporters(){
-  console.log(pledge_supporter_list)
-  return(pledge_supporter_list.map((item,index)=>{
-       return( 
-       <center >
-        Supporter {pledge_supporter_list[index][0]} has claimed the pledge "{pledge_supporter_list[index][1]}"<br/>
-        </center>
-        )}))
-}
+  function displaypledgesupporters(){
+    console.log(pledge_supporter_list)
+    return(pledge_supporter_list.map((item,index)=>{
+        return( 
+        <center >
+          Supporter {pledge_supporter_list[index][0]} has claimed the pledge "{pledge_supporter_list[index][1]}"<br/>
+          </center>
+          )}))
+  }
 
-function handleDeletePledge(username, projectname, reward, amount){
-  // Creating Payload to send to Lambda
-  var data = {};
-  data["username"] = username;
-  data["projectname"] = projectname;
-  data["reward"] = reward;
-  data["amount"] = amount;
+  function handleDeletePledge(username, projectname, reward, amount){
+    // Creating Payload to send to Lambda
+    var data = {};
+    data["username"] = username;
+    data["projectname"] = projectname;
+    data["reward"] = reward;
+    data["amount"] = amount;
 
-  
-  // to work with API gateway, I need to wrap inside a 'body'
-  var body = {}
-  body["body"] = JSON.stringify(data);
-  var js = JSON.stringify(body);
-
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", delete_pledge_url, true);
-  xhr.send(js);
-
-  console.log('Sent Request to Lambda to delete Pledge : ', reward)
-  // This will process results and update HTML as appropriate. 
-  
-  xhr.onloadend = function () {
-    if (xhr.readyState == XMLHttpRequest.DONE) {
-      console.log('Received Response from Lambda')
-
-      var parsed_response = JSON.parse(xhr.responseText);
-      //console.log("JSONParse Result :", responseunit)
-      var response_info  = parsed_response["result"];
-      //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
-      alert("Deleted Pledge!")
-      let hasloadedpledges = false;
-      //navigate('/Designer_LandingPage');
-      if(response_info != undefined){
-    }
     
-    } else {
-      console.log("did not receive projects back")
+    // to work with API gateway, I need to wrap inside a 'body'
+    var body = {}
+    body["body"] = JSON.stringify(data);
+    var js = JSON.stringify(body);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", delete_pledge_url, true);
+    xhr.send(js);
+
+    console.log('Sent Request to Lambda to delete Pledge : ', reward)
+    // This will process results and update HTML as appropriate. 
+    
+    xhr.onloadend = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        console.log('Received Response from Lambda')
+
+        var parsed_response = JSON.parse(xhr.responseText);
+        //console.log("JSONParse Result :", responseunit)
+        var response_info  = parsed_response["result"];
+        //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
+        alert("Deleted Pledge!")
+        let hasloadedpledges = false;
+        //navigate('/Designer_LandingPage');
+        if(response_info != undefined){
+      }
+      
+      } else {
+        console.log("did not receive projects back")
+      }
+  };
+  }
+
+  function goalchecker(fundsraised, goal){
+    if(goal > fundsraised){
+      return("No")
     }
-};
-}
+    if(goal < fundsraised){
+      return("Yes")
+    }
+    else{
+      return("error")
+    }
+  }
 
   function displayprojectinfo(){
     if(currentuser.user == undefined){
@@ -264,11 +275,11 @@ function handleDeletePledge(username, projectname, reward, amount){
           Project Fundraising Goal: {listofprojects[5]}<br/>
           Is the Project Launched? : {launchchecker(listofprojects[4])}<br/>
           Funds Raised by the Project: {listofprojects[6]}<br/>
-          Project deadline: {listofprojects[7]}<br/><br/>
+          Project deadline: {listofprojects[7]}<br/>
+          Has the Project Reached it's Goal? : {goalchecker(listofprojects[6], listofprojects[5])}<br/><br/>
       </center>
     )}
   }
-
 
   function handleDeleteProject(project_name, designer_name, pledge_list){
     for (let m=0; m<(pledge_list.length); m++){
@@ -371,7 +382,6 @@ function handleDeletePledge(username, projectname, reward, amount){
 }
 
 
-console.log("!!! :", pledge_supporter_list)
     return (
         <div>
 
