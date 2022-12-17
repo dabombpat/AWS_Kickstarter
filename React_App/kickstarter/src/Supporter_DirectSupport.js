@@ -93,7 +93,7 @@ function DirectSupport(username, projectname, amount) { // Requests List of Proj
 
 
           <br/>
-          <center><button onClick={()=>handleBackToLogin()} type="submit" className="btn">Back To Login</button></center>
+          <center><button onClick={()=>handleBackToLogin()} type="submit" className="btn">Back To Project Page</button></center>
           </div>
         );
     }

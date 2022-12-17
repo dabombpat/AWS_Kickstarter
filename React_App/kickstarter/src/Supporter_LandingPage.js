@@ -158,7 +158,7 @@ function displayfunds(){
   return(
        <center >
         Your Funds: {funds[1]}<br/>
-       <center><button onClick={()=>handleToAddFunds()} type="submit" className="btn">Add Funds : {}</button></center>
+       <center><button onClick={()=>handleToAddFunds()} type="submit" className="btn">Add Funds Here! {}</button></center>
        </center>
         )
 }
@@ -212,7 +212,7 @@ const handleToAddFunds  = () => {
           <div className="form">
             <div className="form-body">
               <div className="searchval">
-                <label className="form__label" htmlFor="searchval">Search for a Project By Genre Here : </label>
+                <label className="form__label" htmlFor="searchval">Search for a Project By Genre or Description : </label>
                 <input className="form_label" type="text" value={searchval} onChange = {(e) => handleInputChange(e)} id="searchval" placeholder="Game"/>
                 <center><button onClick={()=>{SearchGenre(searchval); hasloadedprojects = false;}} type="submit" className="btn">Search</button></center>
               </div>

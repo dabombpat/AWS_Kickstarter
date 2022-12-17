@@ -182,7 +182,7 @@ function Designer_ProjectPage(){
          return( 
          <center >
           <h4><center>This is the pledge : "{pledge_list[index][1]}"</center></h4>
-          <center><button onClick={()=>{handleDeletePledge(currentuser.user, currentproject.projectname, pledge_list[index][1], pledge_list[index][2]); resethasloaded()}} type="submit" className="btn">Delete This Pledge</button></center>
+          <center><button onClick={()=>{handleDeletePledge(currentuser.user, currentproject.projectname, pledge_list[index][1], pledge_list[index][2]); resethasloaded(); handleBack()}} type="submit" className="btn">Delete This Pledge</button></center>
           Project Name: {pledge_list[index][0]}<br/>
           Pledge Reward: {pledge_list[index][1]}<br/>
           Required Pledge Amount: {pledge_list[index][2]}<br/>

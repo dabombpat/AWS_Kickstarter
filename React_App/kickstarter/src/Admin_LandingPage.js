@@ -62,10 +62,10 @@ function Admin_LandingPage(){
         for(let i=0; i < (response_info.length); i++){
           console.log(i)
           if(i>0){
-            setList(listofprojects => [...listofprojects, [response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"]]])
+            setList(listofprojects => [...listofprojects, [response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"],response_info[i]["success"],response_info[i]["failed"]]])
           }
           else{
-            setList(listofprojects => [[response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"]]])
+            setList(listofprojects => [[response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"],response_info[i]["success"],response_info[i]["failed"]]])
           }}
       console.log(listofprojects)
     }
@@ -76,9 +76,6 @@ function Admin_LandingPage(){
   }
   };
   }
-
-
-
 
   function handleDeleteProject(project_name, designer_name, pledge_list){
     for (let m=0; m<(pledge_list.length); m++){
@@ -114,6 +111,7 @@ function Admin_LandingPage(){
         var response_info  = parsed_response["result"];
         //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
         alert("Deleted Project!")
+        hasloadedprojects = false
         navigate('/');
         if(response_info != undefined){
       }
@@ -164,6 +162,7 @@ function Admin_LandingPage(){
       }
   };
   }
+
   function RequestPledgeSupporterListFromLambda(project_name, reward) {
     // Creating Payload to send to Lambda
     var data = {};
@@ -211,6 +210,7 @@ function Admin_LandingPage(){
       }
   };
   }
+
   function RequestPledgeListFromLambda(project_name) {
     if(hasloadedpledges == false){
       hasloadedpledges = true;
@@ -260,15 +260,18 @@ function Admin_LandingPage(){
   }
   }
 
-
-
-
+  function statuschecker(success,failed){
+    if(success){return "SUCCESS"}
+    if(failed){return "FAILED"}
+    else{return "IN PROGRESS"}
+  }
 
   function displayprojects(){
       return(listofprojects.map((item,index)=>{
           console.log(index)
           return( 
           <center >
+            Project Status: {statuschecker(listofprojects[index][8],listofprojects[index][9])}<br/>
             Project Name: {listofprojects[index][3]}<br/>
             Developer Name: {listofprojects[index][0]}<br/>
             Project Type: {listofprojects[index][1]}<br/>
@@ -282,9 +285,6 @@ function Admin_LandingPage(){
             )}))
   }
 
-  function resethasloadedprojects(){
-    hasloadedprojects = false;
-  }
   function launchchecker(YorN){
     if(YorN == 0){
       return("No")
@@ -299,8 +299,10 @@ function Admin_LandingPage(){
 
   const handleBackToLogin  = () => {
     console.log("Navigating back to the Login Page (from ALP page) ---------------------")
+    hasloadedprojects = false
     navigate('/');
   }
+
   const handleReapProjects  = () => {
     console.log("Reaping Projects")
     alert("Attempting to Reap Projects")
@@ -326,7 +328,7 @@ function Admin_LandingPage(){
       //console.log("JSONParse Result :", responseunit)
       var response_info  = parsed_response["result"];
       //console.log("result : ", response_info)
-      hasloadedprojects = true;
+      hasloadedprojects = false;
       if(response_info != undefined){
         for(let i=0; i < (response_info.length); i++){
           console.log(i)
@@ -351,7 +353,7 @@ function Admin_LandingPage(){
       
           <h1><center>Welcome to the Admin Home Page!</center></h1>
           <h1><center>You're Logged in as Admin!</center></h1>
-          <center><button onClick={()=>handleReapProjects()} type="submit" className="btn">Reap Projects</button></center>
+          <center><button onClick={()=>{hasloadedprojects=false; handleReapProjects();handleBackToLogin()}} type="submit" className="btn">Reap Projects</button></center>
           <br/><br/>
           {displayprojects()}
 

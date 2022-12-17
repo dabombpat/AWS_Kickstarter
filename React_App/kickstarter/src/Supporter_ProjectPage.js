@@ -54,7 +54,7 @@ function Supporter_ProjectPage(){
         var response_info  = parsed_response["result"];
         //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
         if(response_info != undefined){
-        setProjectList(listofprojects => [response_info[0]["username"], response_info[0]["type"], response_info[0]["story"], response_info[0]["name"], response_info[0]["launched"], response_info[0]["goal"], response_info[0]["funds"], response_info[0]["deadline"]])
+        setProjectList(listofprojects => [response_info[0]["username"], response_info[0]["type"], response_info[0]["story"], response_info[0]["name"], response_info[0]["launched"], response_info[0]["goal"], response_info[0]["funds"], response_info[0]["deadline"],response_info[0]["success"],response_info[0]["failed"]])
         //console.log("Updated : ", listofprojects)
       }
       
@@ -112,7 +112,6 @@ function Supporter_ProjectPage(){
   }
   }
 
-
   function launchchecker(YorN){
     if(YorN == 0){
       return("No")
@@ -125,14 +124,30 @@ function Supporter_ProjectPage(){
     }
   }
 
+  function viewpledges(index){
+    //console.log("viewpledge",listofprojects[8] )
+    if(listofprojects[8] == 1){
+      return("")
+    }    
+    if(listofprojects[9] == 1){
+      return("")
+    }
+    else{
+      return(<center><button onClick={()=>{handleClaimPledge(currentuser.user, currentproject.projectname, pledge_list[index][1], pledge_list[index][2], pledge_list[index][3], pledge_list[index][4]); resethasloaded()}} type="submit" className="btn">Claim This Pledge!</button></center>)
+  }}
+
+
+
   function displaypledges(){
     //console.log("HERE")
     return(pledge_list.map((item,index)=>{
         //console.log(index)
+
+
          return( 
          <center >
           <h4><center>This is the pledge : "{pledge_list[index][1]}"</center></h4>
-          <center><button onClick={()=>{handleClaimPledge(currentuser.user, currentproject.projectname, pledge_list[index][1], pledge_list[index][2], pledge_list[index][3], pledge_list[index][4]); resethasloaded()}} type="submit" className="btn">Claim This Pledge!</button></center>
+          {viewpledges(index)}
           Pledge Name: {pledge_list[index][0]}<br/>
           Project Name: {pledge_list[index][0]}<br/>
           Pledge Reward: {pledge_list[index][1]}<br/>
@@ -145,6 +160,9 @@ function Supporter_ProjectPage(){
 
 function handleClaimPledge(supporter_username, project_name, pledge_reward, pledge_amount, max_supporters, current_supporters){
   // Creating Payload to send to Lambda
+  if(max_supporters == null){
+    max_supporters = 1000
+  }
   var data = {};
   data["username"] = supporter_username;
   data["projectname"] = project_name;
@@ -250,8 +268,6 @@ function handleClaimPledge(supporter_username, project_name, pledge_reward, pled
   };
   }
 
-
-
   const handleBack  = () => {
     console.log("Navigating back to the Designer Landing Page (from project landing) ---------------------")
     navigate('/Supporter_LandingPage');
@@ -262,47 +278,21 @@ function handleClaimPledge(supporter_username, project_name, pledge_reward, pled
     navigate('/Supporter_DirectSupport');
   }
 
-
   function resethasloaded(){
     hasloadedprojects = false;
     hasloadedpledges = false;
   }
 
-  function handleLaunchProject(project){
-  // Creating Payload to send to Lambda
-  var data = {};
-  data["username"] = currentuser.user;
-  data["name"] = project;
-  
-  // to work with API gateway, I need to wrap inside a 'body'
-  var body = {}
-  body["body"] = JSON.stringify(data);
-  var js = JSON.stringify(body);
-
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", launch_project_url, true);
-  xhr.send(js);
-
-  console.log('Sent Request to Lambda to Launch Project')
-  // This will process results and update HTML as appropriate. 
-  
-  xhr.onloadend = function () {
-    if (xhr.readyState == XMLHttpRequest.DONE) {
-      console.log('Received Response from Lambda')
-
-      var parsed_response = JSON.parse(xhr.responseText);
-      //console.log("JSONParse Result :", responseunit)
-      var response_info  = parsed_response["result"];
-      //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
-      navigate('/Designer_ProjectPage');
-      if(response_info != undefined){
+  function displaydirectsupport(){
+    if(listofprojects[8] == 1){
+      return(<center>This project has succeeded and cannot accept any more funding</center>)
+    }    
+    if(listofprojects[9] == 1){
+      return(<center>This project has failed and cannot accept any more funding</center>)
     }
-    
-    } else {
-      console.log("did not receive projects back")
-    }
-};
-}
+    else{
+      return(<center><button onClick={()=>{handletoDirectSupport(); resethasloaded()}} type="submit" className="btn">Direct Support</button></center>)
+  }}
 
     return (
         <div>
@@ -311,7 +301,8 @@ function handleClaimPledge(supporter_username, project_name, pledge_reward, pled
 
           {displayprojectinfo()}
 
-          <center><button onClick={()=>{handletoDirectSupport(); resethasloaded()}} type="submit" className="btn">Direct Support</button></center>
+          {displaydirectsupport()}
+          
 
           {displaypledges()}
 

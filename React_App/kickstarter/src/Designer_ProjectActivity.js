@@ -7,7 +7,6 @@ import currentproject from './App';
 var base_url = "https://sbjoexsw53.execute-api.us-east-1.amazonaws.com/Prod/";
 var view_activity_url = base_url + "viewprojectactivity";      // POST: {arg1:5, arg2:7}
 
-
 let hasloadedactivity = false;
 let initialactivitylist = [];
 
@@ -86,8 +85,6 @@ function Designer_ProjectPage(){
           <br/></center>
           )}))
   }
-
-
 
   const handleBack  = () => {
     console.log("Navigating back to the Designer Landing Page (from project landing) ---------------------")

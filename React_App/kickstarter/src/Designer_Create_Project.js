@@ -117,7 +117,7 @@ const handleSubmit  = () => {
                     <input className="form_label" type="text" value={designer_name} onChange = {(e) => handleInputChange(e)} id="designer_name" placeholder="Pat Flan"/>
                 </div>
                 <div className="project_story">
-                    <label className="form__label" htmlFor="project_story"> Project Story : </label>
+                    <label className="form__label" htmlFor="project_story"> Project Description : </label>
                     <input  type="form_label" name="" id="project_story" value={project_story}  className="form__input" onChange = {(e) => handleInputChange(e)} placeholder="Once upon a time.."/>
                 </div>
                 <div className="project_genre">
@@ -130,7 +130,7 @@ const handleSubmit  = () => {
                 </div>
                 <div className="deadline">
                     <label className="form__label" htmlFor="project_deadline">Project Deadline :</label>
-                    <input className="form_label" type="text" id="project_deadline" value={project_deadline} onChange = {(e) => handleInputChange(e)} placeholder="Deadline Date"/>
+                    <input className="form_label" type="text" id="project_deadline" value={project_deadline} onChange = {(e) => handleInputChange(e)} placeholder="Format Type MM/DD/YYYY"/>
                 </div>
             </div>
             <div className="footer">

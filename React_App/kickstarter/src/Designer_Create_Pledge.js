@@ -101,9 +101,13 @@ const handleBack  = () => {
                     <input  type="form_label" name="" id="max_supporters" value={max_supporters}  className="form__input" onChange = {(e) => handleInputChange(e)} placeholder="5"/>
                 </div>
               </div>
-            </div>
+            </div><br/>
+            Click the back button after clicking "Create Pledge" to see the new pledge<br/>
+          
+
             <button onClick={()=>handleBack()} type="submit" className="btn">Back</button>
             <button onClick={()=>handleSubmit()} type="submit" className="btn">Create Pledge</button>
+            
       </div>
     );
   }
