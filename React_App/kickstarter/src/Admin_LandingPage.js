@@ -31,7 +31,7 @@ function Admin_LandingPage(){
 
 
 
-  function Project_List_Caller(username) { // Requests List of Projects by the logged in Designer
+  function Project_List_Caller() { // Requests List of Projects by the logged in Designer
     if(hasloadedprojects == false){
     // Creating Lambda Payload
     var data = {};
@@ -57,10 +57,11 @@ function Admin_LandingPage(){
       //console.log("JSONParse Result :", responseunit)
       var response_info  = parsed_response["result"];
       //console.log("result : ", response_info)
-      hasloadedprojects = true;
+      
       if(response_info != undefined){
         for(let i=0; i < (response_info.length); i++){
           console.log(i)
+          hasloadedprojects = true;
           if(i>0){
             setList(listofprojects => [...listofprojects, [response_info[i]["username"], response_info[i]["type"], response_info[i]["story"], response_info[i]["name"], response_info[i]["launched"], response_info[i]["goal"], response_info[i]["funds"], response_info[i]["deadline"],response_info[i]["success"],response_info[i]["failed"]]])
           }
@@ -152,7 +153,6 @@ function Admin_LandingPage(){
         var response_info  = parsed_response["result"];
         //console.log("result : ", response_info[0]["username"], response_info[0]["type"],)
         alert("Deleted Pledge!")
-        let hasloadedpledges = false;
         //navigate('/Designer_LandingPage');
         if(response_info != undefined){
       }
@@ -280,6 +280,7 @@ function Admin_LandingPage(){
             Is the Project Launched? : {launchchecker(listofprojects[index][4])}<br/>
             Funds Raised by the Project: {listofprojects[index][6]}<br/>
             Project deadline: {listofprojects[index][7]}<br/>
+            Has the Project Reached it's Goal? : {goalchecker(listofprojects[index][6], listofprojects[index][5])}<br/>
             <center><button onClick={()=>handleDeleteProject(listofprojects[index][3], listofprojects[index][0], pledge_list)} type="submit" className="btn">Delete Project : {listofprojects[index][3]}</button></center><br/><br/>
           </center>
             )}))
@@ -305,6 +306,7 @@ function Admin_LandingPage(){
 
   const handleReapProjects  = () => {
     console.log("Reaping Projects")
+    reset()
     alert("Attempting to Reap Projects")
     var data = {}
     var body = {}
@@ -358,7 +360,7 @@ function Admin_LandingPage(){
           {displayprojects()}
 
           <br/>
-          <center><button onClick={()=>handleBackToLogin()} type="submit" className="btn">Back To Login</button></center>
+          <center><button onClick={()=>{hasloadedprojects = false;handleBackToLogin()}} type="submit" className="btn">Back To Login</button></center>
           </div>
 
           

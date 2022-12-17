@@ -14,7 +14,7 @@ function Supporter_DirectSupport(){
   let username = currentuser.user
   const navigate = useNavigate();
 
-  const handleBackToLogin  = () => {
+  const handleBackToLandingPage  = () => {
     console.log("Navigating back to the Project Page Page (from SDS page) ---------------------")
     navigate('/Supporter_ProjectPage');
   }
